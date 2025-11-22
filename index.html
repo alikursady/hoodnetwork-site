@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hood Network | Coming Soon</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Hood Network, Ankara'da sosyal çevresini genişletmek, kaliteli etkinliklere katılmak ve güvenli bir topluluk içinde yer almak isteyenler için özel bir sosyal ağdır. Ankara etkinlik grubu, Hood grup.">
+    <meta name="keywords" content="Ankara etkinlik, Ankara etkinlik grubu, Hood Network, Hood Grup, Ankara sosyal topluluk, özel etkinlikler, networking Ankara, kaliteli çevre">
+    <meta name="author" content="Hood Network">
+    <meta name="robots" content="index, follow">
+    
+    <title>Hood Network | Ankara Özel Etkinlik Topluluğu</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -135,6 +142,8 @@
             background: linear-gradient(to bottom right, #ffffff 30%, #888888 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-align: center;
+            line-height: 1.1;
         }
 
         .hero p.subtitle {
@@ -395,14 +404,51 @@
             letter-spacing: 1px;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 3rem; }
-            .countdown { gap: 1rem; padding: 20px; width: 100%; justify-content: center; }
-            .countdown-number { font-size: 2rem; }
-            .countdown-item { min-width: auto; }
-            .countdown-item:not(:last-child)::after { font-size: 1.5rem; right: -0.8rem; }
-            .features-grid { grid-template-columns: 1fr; }
+        /* Responsive Enhancements */
+        @media (max-width: 900px) {
+            .hero h1 { font-size: 4rem; }
+            .countdown { gap: 2rem; padding: 30px 40px; }
+            .countdown-number { font-size: 3rem; }
+        }
+
+        @media (max-width: 600px) {
+            .hero { padding: 40px 20px; }
+            .hero h1 { font-size: 2.8rem; letter-spacing: -1px; }
+            .hero p.subtitle { font-size: 1.1rem; margin-bottom: 3rem; }
+            
+            /* Countdown Mobile Fix */
+            .countdown { 
+                gap: 10px; 
+                padding: 20px 15px; 
+                width: 100%; 
+                justify-content: space-around;
+                margin-bottom: 3rem;
+            }
+            .countdown-item { min-width: auto; flex: 1; }
+            .countdown-number { font-size: 1.8rem; }
+            .countdown-label { font-size: 0.6rem; letter-spacing: 0.5px; }
+            .countdown-item:not(:last-child)::after { 
+                content: ":";
+                right: -7px; 
+                font-size: 1.5rem; 
+                top: 5px;
+            }
+            
+            .features-grid { 
+                gap: 25px; 
+                margin-top: 30px;
+            }
+            
+            .feature-card { padding: 30px 20px; }
+            
+            .rules-btn {
+                width: 100%;
+                padding: 18px 30px;
+                font-size: 1.1rem;
+            }
+            
+            .about-section { padding: 60px 0; }
+            .cta-section { padding: 80px 0 60px; }
         }
     </style>
 </head>
@@ -501,9 +547,7 @@
     </footer>
 
     <script>
-        // Hedef Tarih: 15 Aralık 2024, Saat 00:00
-        // Not: Eğer bu tarih geçtiyse, sayaç 00 gösterecek veya 2025'e ayarlanmalı.
-        // Şimdilik 2024 olarak ayarlıyorum.
+        // Hedef Tarih: 15 Aralık 2025, Saat 00:00
         const targetDate = new Date("December 15, 2025 00:00:00").getTime();
 
         function updateCountdown() {
