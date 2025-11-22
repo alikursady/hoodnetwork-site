@@ -5,25 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Hood Network, Ankara'da sosyal çevresini genişletmek, kaliteli etkinliklere katılmak ve güvenli bir topluluk içinde yer almak isteyenler için özel bir sosyal ağdır. Ankara etkinlik grubu, Hood grup.">
-    <meta name="keywords" content="Ankara etkinlik, Ankara etkinlik grubu, Hood Network, Hood Grup, Ankara sosyal topluluk, özel etkinlikler, networking Ankara, kaliteli çevre">
+    <meta name="description" content="Hood Network, Ankara'da sosyal çevresini genişletmek, kaliteli etkinliklere katılmak ve güvenli bir topluluk içinde yer almak isteyenler için özel bir sosyal ağdır.">
+    <meta name="keywords" content="Ankara etkinlik, Ankara etkinlik grubu, Hood Network, Hood Grup, Ankara sosyal topluluk, özel etkinlikler, networking Ankara">
     <meta name="author" content="Hood Network">
     <meta name="robots" content="index, follow">
     
     <title>Hood Network | Ankara Özel Etkinlik Topluluğu</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #0a0a0a;
-            --bg-card: #141414;
+            --bg-dark: #050505;
             --text-main: #ffffff;
-            --text-muted: #a0a0a0;
+            --text-muted: #888888;
             --neon-blue: #00f2ff;
             --neon-purple: #bc13fe;
-            --neon-pink: #ff0055;
-            --gradient-bg: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            --cursor-size: 20px;
         }
 
         * {
@@ -40,41 +38,15 @@
             overflow-x: hidden;
         }
 
-        /* Arka Plan Efektleri */
-        body::before {
-            content: "";
+        /* Canvas Background */
+        #networkCanvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                linear-gradient(rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0.8)),
-                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23222222' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
             z-index: -1;
-            pointer-events: none;
-        }
-
-        .glow-spot {
-            position: fixed;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(188, 19, 254, 0.08) 0%, transparent 70%);
-            top: -200px;
-            right: -200px;
-            z-index: -1;
-            pointer-events: none;
-        }
-        
-        .glow-spot-2 {
-            position: fixed;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(0, 242, 255, 0.05) 0%, transparent 70%);
-            bottom: -100px;
-            left: -100px;
-            z-index: -1;
-            pointer-events: none;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
         }
 
         /* Utility Classes */
@@ -84,7 +56,17 @@
             padding: 0 20px;
         }
 
-        .text-center { text-align: center; }
+        /* Scroll Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         /* Hero Section */
         .hero {
@@ -95,112 +77,130 @@
             align-items: center;
             position: relative;
             padding: 60px 20px;
-            overflow: hidden;
+            z-index: 1;
         }
 
-        /* Neon Lines Animation */
-        .hero-lines {
+        /* Glitch Effect Title */
+        .glitch-wrapper {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 6rem;
+            font-weight: 900;
+            letter-spacing: -4px;
+            color: #fff;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+        }
+
+        .glitch {
+            position: relative;
+            color: white;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-        
-        .line {
-            position: absolute;
-            width: 2px;
-            height: 100px;
-            background: linear-gradient(to bottom, transparent, var(--neon-blue), transparent);
-            opacity: 0.5;
-            animation: drop 3s infinite ease-in-out;
-        }
-        
-        .line:nth-child(1) { left: 10%; top: -100px; animation-delay: 0s; height: 150px; }
-        .line:nth-child(2) { left: 30%; top: -100px; animation-delay: 1.5s; height: 100px; }
-        .line:nth-child(3) { left: 70%; top: -100px; animation-delay: 0.8s; height: 200px; }
-        .line:nth-child(4) { left: 90%; top: -100px; animation-delay: 2.2s; height: 120px; }
-
-        @keyframes drop {
-            0% { transform: translateY(-200px); opacity: 0; }
-            50% { opacity: 0.8; }
-            100% { transform: translateY(100vh); opacity: 0; }
         }
 
-        .hero h1 {
-            font-size: 5rem;
-            font-weight: 900;
-            letter-spacing: -3px;
-            color: #fff;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-            position: relative;
-            z-index: 1;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-            background: linear-gradient(to bottom right, #ffffff 30%, #888888 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-align: center;
-            line-height: 1.1;
+        .glitch::before {
+            left: 2px;
+            text-shadow: -1px 0 var(--neon-purple);
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: -1px 0 var(--neon-blue);
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim 2.5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(11px, 9999px, 86px, 0); }
+            20% { clip: rect(98px, 9999px, 5px, 0); }
+            40% { clip: rect(33px, 9999px, 63px, 0); }
+            60% { clip: rect(80px, 9999px, 13px, 0); }
+            80% { clip: rect(54px, 9999px, 94px, 0); }
+            100% { clip: rect(10px, 9999px, 20px, 0); }
+        }
+
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(65px, 9999px, 100px, 0); }
+            20% { clip: rect(23px, 9999px, 16px, 0); }
+            40% { clip: rect(89px, 9999px, 4px, 0); }
+            60% { clip: rect(3px, 9999px, 78px, 0); }
+            80% { clip: rect(44px, 9999px, 25px, 0); }
+            100% { clip: rect(91px, 9999px, 56px, 0); }
         }
 
         .hero p.subtitle {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: var(--text-muted);
             max-width: 600px;
             margin-bottom: 4rem;
             font-weight: 300;
             text-align: center;
-            letter-spacing: 0.5px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
         .coming-soon-badge {
             display: inline-flex;
             align-items: center;
             padding: 10px 24px;
-            border: 1px solid rgba(188, 19, 254, 0.3);
+            border: 1px solid rgba(0, 242, 255, 0.3);
             border-radius: 50px;
-            background: rgba(188, 19, 254, 0.05);
-            color: var(--neon-purple);
-            font-size: 0.85rem;
-            margin-bottom: 2.5rem;
+            background: rgba(0, 242, 255, 0.05);
+            color: var(--neon-blue);
+            font-size: 0.8rem;
+            margin-bottom: 2rem;
             letter-spacing: 2px;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
-            box-shadow: 0 0 20px rgba(188, 19, 254, 0.1);
-            position: relative;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.1);
         }
-        
+
         .coming-soon-badge::before {
             content: '';
             width: 8px;
             height: 8px;
-            background-color: var(--neon-purple);
+            background-color: var(--neon-blue);
             border-radius: 50%;
-            margin-right: 10px;
-            box-shadow: 0 0 10px var(--neon-purple);
+            margin-right: 12px;
+            box-shadow: 0 0 10px var(--neon-blue);
             animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0% { opacity: 1; box-shadow: 0 0 0 0 rgba(188, 19, 254, 0.7); }
-            70% { opacity: 0.8; box-shadow: 0 0 0 10px rgba(188, 19, 254, 0); }
-            100% { opacity: 1; box-shadow: 0 0 0 0 rgba(188, 19, 254, 0); }
+            0% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.7); }
+            70% { opacity: 0.8; box-shadow: 0 0 0 10px rgba(0, 242, 255, 0); }
+            100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 242, 255, 0); }
         }
 
-        /* Countdown Enhanced */
+        /* Countdown Glassmorphism */
         .countdown {
             display: flex;
-            gap: 3rem;
+            gap: 2.5rem;
             margin-bottom: 4rem;
-            background: rgba(255, 255, 255, 0.02);
-            padding: 30px 50px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 40px 60px;
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
         .countdown-item {
@@ -208,313 +208,294 @@
             flex-direction: column;
             align-items: center;
             position: relative;
-            min-width: 80px;
-        }
-        
-        .countdown-item:not(:last-child)::after {
-            content: ":";
-            position: absolute;
-            right: -1.8rem;
-            top: 10px;
-            font-size: 2rem;
-            color: rgba(255,255,255,0.2);
-            font-weight: 300;
         }
 
         .countdown-number {
-            font-size: 3.5rem;
-            font-weight: 700;
+            font-size: 4rem;
+            font-weight: 800;
             line-height: 1;
-            color: #fff;
-            text-shadow: 0 0 15px rgba(0, 242, 255, 0.6);
+            background: linear-gradient(to bottom, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             font-variant-numeric: tabular-nums;
         }
 
         .countdown-label {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
             color: var(--text-muted);
             letter-spacing: 2px;
-            margin-top: 10px;
+            margin-top: 15px;
             font-weight: 600;
         }
 
         /* About Section */
         .about-section {
-            padding: 100px 0;
-            background: linear-gradient(to bottom, #0a0a0a, #111);
+            padding: 150px 0;
             position: relative;
             z-index: 2;
         }
 
         .about-desc {
             max-width: 800px;
-            margin: 0 auto 80px;
-            font-size: 1.2rem;
-            color: #cccccc;
+            margin: 0 0 80px 0;
+            font-size: 1.4rem;
+            color: #ccc;
             line-height: 1.8;
             font-weight: 300;
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
             margin-top: 50px;
         }
 
         .feature-card {
-            background: rgba(255, 255, 255, 0.02);
-            padding: 50px 30px;
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-align: center;
+            background: rgba(20, 20, 20, 0.6);
+            padding: 50px 40px;
+            border-radius: 0; /* Keskin köşeler daha modern durabilir veya hafif radius */
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.5s ease;
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(10px);
         }
-        
-        .feature-card::before {
+
+        .feature-card::after {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, rgba(255,255,255,0.03) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.4s;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-purple), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .feature-card:hover::after {
+            transform: translateX(100%);
+            transition: transform 1s ease;
         }
 
         .feature-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+            background: rgba(30, 30, 30, 0.8);
             border-color: rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.04);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
-        
-        .feature-card:hover::before { opacity: 1; }
 
         .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 25px;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
             display: inline-block;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+            color: var(--neon-blue);
+            text-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
         }
 
         .feature-title {
             font-weight: 700;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             margin-bottom: 15px;
             color: #fff;
         }
 
         /* CTA Section */
         .cta-section {
-            padding: 120px 0 80px;
+            padding: 100px 0;
             text-align: center;
-            background: #111;
         }
 
         .rules-btn {
+            position: relative;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 20px 50px;
-            background: rgba(188, 19, 254, 0.1);
+            padding: 25px 60px;
+            background: transparent;
             color: #fff;
-            border: 1px solid var(--neon-purple);
-            border-radius: 100px;
-            font-size: 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 1.1rem;
             font-weight: 600;
             text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(188, 19, 254, 0.15);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            overflow: hidden;
+            transition: 0.4s;
+            z-index: 1;
         }
 
-        .rules-btn:hover {
+        .rules-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
             background: var(--neon-purple);
-            box-shadow: 0 0 50px rgba(188, 19, 254, 0.5);
-            transform: scale(1.05);
-            color: #fff;
+            z-index: -1;
+            transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
-        /* KVKK Section */
+        .rules-btn:hover::before { width: 100%; }
+        .rules-btn:hover { border-color: var(--neon-purple); box-shadow: 0 0 30px rgba(188, 19, 254, 0.4); }
+
+        /* KVKK & Footer */
         .kvkk-section {
             padding: 40px 0;
             text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            background: #0f0f0f;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            background: #020202;
         }
 
         .kvkk-link {
-            color: var(--text-muted);
+            color: #666;
             text-decoration: none;
-            font-size: 0.9rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 2px;
-            transition: all 0.3s;
+            font-size: 0.8rem;
+            transition: 0.3s;
         }
+        .kvkk-link:hover { color: var(--neon-blue); }
 
-        .kvkk-link:hover {
-            color: var(--neon-blue);
-            border-bottom-color: var(--neon-blue);
-        }
-
-        /* Footer */
         footer {
-            padding: 60px 0;
+            padding: 50px 0;
             text-align: center;
-            background: #0a0a0a;
+            background: #000;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 25px;
+            gap: 20px;
         }
 
         .social-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
             color: #fff;
             text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s;
-            padding: 10px 20px;
-            border-radius: 50px;
-            background: rgba(255,255,255,0.03);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            opacity: 0.7;
+            transition: 0.3s;
         }
+        .social-link:hover { opacity: 1; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        .social-link svg { width: 20px; height: 20px; fill: currentColor; }
 
-        .social-link:hover { 
-            background: rgba(255,255,255,0.08);
-            transform: translateY(-2px);
-        }
-        
-        .social-link svg {
-            width: 24px;
-            height: 24px;
-            fill: currentColor;
-        }
-
-        .copyright {
-            color: #444;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-        }
-
-        /* Responsive Enhancements */
+        /* Responsive */
         @media (max-width: 900px) {
-            .hero h1 { font-size: 4rem; }
+            .hero h1 { font-size: 4.5rem; }
             .countdown { gap: 2rem; padding: 30px 40px; }
             .countdown-number { font-size: 3rem; }
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             .hero { padding: 40px 20px; }
-            .hero h1 { font-size: 2.8rem; letter-spacing: -1px; }
-            .hero p.subtitle { font-size: 1.1rem; margin-bottom: 3rem; }
+            .hero h1 { font-size: 3rem; letter-spacing: -2px; line-height: 1.1; }
+            .hero p.subtitle { font-size: 1rem; margin-bottom: 3rem; }
             
-            /* Countdown Mobile Fix */
+            .coming-soon-badge { 
+                padding: 8px 16px; 
+                font-size: 0.75rem;
+                margin-bottom: 1.5rem;
+            }
+
             .countdown { 
+                padding: 20px; 
                 gap: 10px; 
-                padding: 20px 15px; 
                 width: 100%; 
                 justify-content: space-around;
-                margin-bottom: 3rem;
             }
             .countdown-item { min-width: auto; flex: 1; }
             .countdown-number { font-size: 1.8rem; }
-            .countdown-label { font-size: 0.6rem; letter-spacing: 0.5px; }
-            .countdown-item:not(:last-child)::after { 
-                content: ":";
-                right: -7px; 
-                font-size: 1.5rem; 
-                top: 5px;
-            }
+            .countdown-label { font-size: 0.6rem; margin-top: 5px; }
+            
+            .about-section { padding: 80px 0; }
+            .about-desc { font-size: 1.1rem; margin-bottom: 50px; }
             
             .features-grid { 
+                grid-template-columns: 1fr;
                 gap: 25px; 
-                margin-top: 30px;
             }
             
+            .rules-btn { 
+                padding: 20px 30px; 
+                width: 100%; 
+                font-size: 1rem;
+            }
+            
+            /* Mobilde cursor kapatılabilir çünkü dokunmatik ekran */
+            .cursor, .cursor-dot { display: none; }
+            * { cursor: auto; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2.5rem; }
+            .countdown-number { font-size: 1.5rem; }
             .feature-card { padding: 30px 20px; }
-            
-            .rules-btn {
-                width: 100%;
-                padding: 18px 30px;
-                font-size: 1.1rem;
-            }
-            
-            .about-section { padding: 60px 0; }
-            .cta-section { padding: 80px 0 60px; }
         }
     </style>
 </head>
 <body>
     
-    <div class="glow-spot"></div>
-    <div class="glow-spot-2"></div>
+    <!-- Hood Her hakkı saklıdır. -->
+
+    <!-- Background Canvas -->
+    <canvas id="networkCanvas"></canvas>
 
     <!-- Hero Section -->
     <header class="hero">
-        <!-- Animated Background Lines -->
-        <div class="hero-lines">
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
+        <div class="coming-soon-badge reveal active">Uygulama Yakında Geliyor</div>
+        
+        <div class="glitch-wrapper reveal active">
+            <h1 class="glitch" data-text="Hood Network">Hood Network</h1>
         </div>
-
-        <div class="coming-soon-badge">Uygulama Yakında Geliyor</div>
-        <h1>Hood Network</h1>
-        <p class="subtitle">Ankara’da seçilmiş üyelerden oluşan özel bir topluluk.</p>
+        
+        <p class="subtitle reveal active" style="transition-delay: 0.2s;">Ankara’nın En Seçkin Topluluğu</p>
         
         <!-- Countdown -->
-        <div class="countdown">
+        <div class="countdown reveal active" style="transition-delay: 0.4s;">
             <div class="countdown-item">
                 <span class="countdown-number" id="days">00</span>
-                <span class="countdown-label">GÜN</span>
+                <span class="countdown-label">Gün</span>
             </div>
             <div class="countdown-item">
                 <span class="countdown-number" id="hours">00</span>
-                <span class="countdown-label">SAAT</span>
+                <span class="countdown-label">Saat</span>
             </div>
             <div class="countdown-item">
                 <span class="countdown-number" id="minutes">00</span>
-                <span class="countdown-label">DAK</span>
+                <span class="countdown-label">Dak</span>
             </div>
             <div class="countdown-item">
                 <span class="countdown-number" id="seconds">00</span>
-                <span class="countdown-label">SN</span>
+                <span class="countdown-label">Sn</span>
             </div>
         </div>
     </header>
 
     <!-- What is Hood Network -->
     <section class="about-section">
-        <div class="container text-center">
-            <h2 style="margin-bottom: 2rem; font-size: 2.5rem; font-weight: 800; color: #fff;">Hood Network Nedir?</h2>
-            <p class="about-desc">
+        <div class="container">
+            <h2 class="reveal" style="margin-bottom: 2rem; font-size: 2.5rem; font-weight: 800; color: #fff;">Hood Network Nedir?</h2>
+            <p class="about-desc reveal">
                 Hood Network, Ankara’da sosyal çevresini genişletmek, kaliteli insanlarla tanışmak ve güvenli bir topluluk içinde yer almak isteyen bireyler için oluşturulmuş modern bir sosyal ağ topluluğudur.
             </p>
 
             <div class="features-grid">
-                <div class="feature-card">
-                    <span class="feature-icon">🌐</span>
-                    <div class="feature-title">Sosyal Bağlantılar</div>
-                    <p style="font-size: 0.95rem; color: #999;">Seçkin üyelerle tanışın ve profesyonel ağınızı güvenle genişletin.</p>
+                <div class="feature-card reveal" style="transition-delay: 0.1s;">
+                    <div class="feature-icon">◉</div>
+                    <div class="feature-title">Network Ağı</div>
+                    <p style="color: #999;">Doğru insanlarla, doğru yerde, doğru zamanda tanışın.</p>
                 </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🥂</span>
-                    <div class="feature-title">Özel Etkinlikler</div>
-                    <p style="font-size: 0.95rem; color: #999;">Sadece üyelere özel kapalı davetlere ve organizasyonlara katılın.</p>
+                <div class="feature-card reveal" style="transition-delay: 0.2s;">
+                    <div class="feature-icon">★</div>
+                    <div class="feature-title">Premium Etkinlikler</div>
+                    <p style="color: #999;">Standartların ötesinde, küratörlü özel deneyimler.</p>
                 </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🛡️</span>
-                    <div class="feature-title">Güvenli Topluluk</div>
-                    <p style="font-size: 0.95rem; color: #999;">Referans sistemiyle korunan, huzurlu ve elit bir ortam.</p>
+                <div class="feature-card reveal" style="transition-delay: 0.3s;">
+                    <div class="feature-icon">🛡</div>
+                    <div class="feature-title">Kapalı Devre</div>
+                    <p style="color: #999;">Sadece davet ve onay ile girilebilen güvenli alan.</p>
                 </div>
             </div>
         </div>
@@ -522,22 +503,21 @@
 
     <!-- Rules Button -->
     <section class="cta-section">
-        <div class="container">
-            <a href="kurallar.html" class="rules-btn">Topluluk Kuralları</a>
+        <div class="container reveal">
+            <a href="kurallar.html" class="rules-btn link-hover">Topluluk Manifestosu</a>
         </div>
     </section>
 
     <!-- KVKK -->
     <section class="kvkk-section">
         <div class="container">
-            <h4 style="margin-bottom: 15px; color: #fff; font-weight: 600;">Yasal Bilgilendirme</h4>
-            <a href="/kvkk.pdf" target="_blank" class="kvkk-link">KVKK Aydınlatma Metni'ni Görüntüle</a>
+            <a href="/kvkk.pdf" target="_blank" class="kvkk-link link-hover">Yasal Bilgilendirme ve KVKK</a>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <a href="https://instagram.com/hoodnetwork.app" target="_blank" class="social-link">
+        <a href="https://instagram.com/hoodnetwork.app" target="_blank" class="social-link link-hover">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
             @hoodnetwork.app
         </a>
@@ -547,20 +527,29 @@
     </footer>
 
     <script>
-        // Hedef Tarih: 15 Aralık 2025, Saat 00:00
-        const targetDate = new Date("December 15, 2025 00:00:00").getTime();
+        // --- Scroll Reveal Animation ---
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // İlk yüklemede tetikle
+        reveal();
 
+        // --- Countdown ---
+        const targetDate = new Date("December 15, 2025 00:00:00").getTime();
         function updateCountdown() {
             const now = new Date().getTime();
             const distance = targetDate - now;
 
-            if (distance < 0) {
-                document.getElementById("days").innerText = "00";
-                document.getElementById("hours").innerText = "00";
-                document.getElementById("minutes").innerText = "00";
-                document.getElementById("seconds").innerText = "00";
-                return;
-            }
+            if (distance < 0) return;
 
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -572,9 +561,110 @@
             document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
             document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
         }
-
         setInterval(updateCountdown, 1000);
         updateCountdown();
+
+        // --- Network Canvas Animation ---
+        const canvas = document.getElementById("networkCanvas");
+        const ctx = canvas.getContext("2d");
+        
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5; // Yavaş hareket
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2 + 1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Kenarlardan sekme
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
+                ctx.fill();
+            }
+        }
+
+        // Partikülleri oluştur
+        // Mobilde daha az partikül
+        const particleCount = window.innerWidth < 768 ? 40 : 80;
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        // Mouse takibi için
+        let mouse = { x: null, y: null };
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+        window.addEventListener('mouseout', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            particles.forEach((p, index) => {
+                p.update();
+                p.draw();
+
+                // Mouse ile etkileşim (Spotlight gibi çekim)
+                if (mouse.x != null) {
+                    let dx = mouse.x - p.x;
+                    let dy = mouse.y - p.y;
+                    let distance = Math.sqrt(dx*dx + dy*dy);
+                    if (distance < 200) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(0, 242, 255, ${1 - distance/200})`; // Neon Blue Lines
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.stroke();
+                    }
+                }
+
+                // Partiküller arası bağlantı
+                for (let j = index; j < particles.length; j++) {
+                    let p2 = particles[j];
+                    let dx = p.x - p2.x;
+                    let dy = p.y - p2.y;
+                    let distance = Math.sqrt(dx*dx + dy*dy);
+
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 - distance/1000})`; 
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            });
+
+            requestAnimationFrame(animate);
+        }
+        animate();
     </script>
 </body>
 </html>
