@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hood Network | Topluluk Kuralları</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --bg-card: #1E1E1E;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --neon-blue: #00f2ff;
+            --neon-purple: #bc13fe;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            flex: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding-top: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, #a0a0a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* Rules Grid */
+        .rules-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Tam genişlikte daha iyi okunur açıklamalar için */
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .rule-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-start; /* Numarayı yukarıda tut */
+            gap: 20px;
+        }
+
+        .rule-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--neon-blue);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .rule-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 242, 255, 0.15), 0 0 15px rgba(188, 19, 254, 0.1);
+            border-color: rgba(0, 242, 255, 0.3);
+        }
+
+        .rule-card:hover::before {
+            opacity: 1;
+        }
+
+        .rule-number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.1);
+            transition: color 0.3s ease;
+            min-width: 50px;
+            line-height: 1;
+            padding-top: 5px;
+        }
+
+        .rule-card:hover .rule-number {
+            color: var(--neon-purple);
+        }
+
+        .rule-content {
+            flex: 1;
+        }
+
+        .rule-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .rule-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* Back Button */
+        .back-btn-container {
+            text-align: center;
+            margin-top: auto;
+            padding-bottom: 40px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 30px;
+            background: transparent;
+            color: var(--text-muted);
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .back-btn:hover {
+            color: #fff;
+            border-color: var(--neon-blue);
+            background: rgba(0, 242, 255, 0.05);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .rule-card { flex-direction: column; gap: 10px; }
+            .rule-number { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Hood Network Topluluk Kuralları</h1>
+            <p class="subtitle">Güvenli ve kaliteli bir ortam için lütfen kurallara uyunuz.</p>
+        </header>
+
+        <div class="rules-grid">
+            <!-- 1 -->
+            <div class="rule-card">
+                <span class="rule-number">01</span>
+                <div class="rule-content">
+                    <div class="rule-title">Aktif Katılım Şarttır</div>
+                    <div class="rule-desc">Uzun süre sessiz kalan veya etkinliklere katılmayan üyelerle yollarımızı ayırırız. Topluluğun sürdürülebilirliği için aktif iletişim ve düzenli katılım önemlidir.</div>
+                </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="rule-card">
+                <span class="rule-number">02</span>
+                <div class="rule-content">
+                    <div class="rule-title">Referans Sistemi</div>
+                    <div class="rule-desc">Her üyenin gruba yalnızca bir kişiyi davet etme hakkı vardır. Referans kontenjanı bir kişi ile sınırlıdır.</div>
+                </div>
+            </div>
+
+            <!-- 3 -->
+            <div class="rule-card">
+                <span class="rule-number">03</span>
+                <div class="rule-content">
+                    <div class="rule-title">Saygı ve Uyum</div>
+                    <div class="rule-desc">Her üyenin fikirlerine, kişisel sınırlarına ve yaşam tarzına saygı gösterilmelidir. Grup içi iletişimde nazik, olumlu ve yapıcı bir dil kullanılması zorunludur.</div>
+                </div>
+            </div>
+
+            <!-- 4 -->
+            <div class="rule-card">
+                <span class="rule-number">04</span>
+                <div class="rule-content">
+                    <div class="rule-title">İzinli Paylaşım</div>
+                    <div class="rule-desc">Kişisel projeler, tanıtım içerikleri, bağlantılar veya reklam amaçlı paylaşımlar yöneticilerin onayı olmadan paylaşılamaz.</div>
+                </div>
+            </div>
+
+            <!-- 5 -->
+            <div class="rule-card">
+                <span class="rule-number">05</span>
+                <div class="rule-content">
+                    <div class="rule-title">Tartışma ve Polemiklerden Kaçınma</div>
+                    <div class="rule-desc">Gereksiz tartışmalar, karşıtlaşmalar, negatif tutum ve polemik içeren davranışlar topluluk dinamiğine zarar verdiği için çıkarılma sebebidir.</div>
+                </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="rule-card">
+                <span class="rule-number">06</span>
+                <div class="rule-content">
+                    <div class="rule-title">Etkinlik Fotoğrafları ve Görsel Kullanımı</div>
+                    <div class="rule-desc">Hoodie Network etkinliklerinde çekilen grup fotoğrafları sosyal medya ve tanıtım içeriklerinde kullanılabilir. Etkinliğe katılan her üye bu durumu önceden kabul etmiş sayılır. Özel bir durum varsa yöneticilerle iletilebilir; içerikler yalnızca haklı gerekçelerle kaldırılır.</div>
+                </div>
+            </div>
+
+            <!-- 7 -->
+            <div class="rule-card">
+                <span class="rule-number">07</span>
+                <div class="rule-content">
+                    <div class="rule-title">Bağımsız Etkinlik Düzenlemek Yasaktır</div>
+                    <div class="rule-desc">Topluluk adına Hoodie Network ismini kullanarak bireysel veya grup etkinliği düzenlemek yönetici onayı olmadan kesinlikle yasaktır. Tüm etkinlikler merkezi şekilde planlanır.</div>
+                </div>
+            </div>
+
+            <!-- 8 -->
+            <div class="rule-card">
+                <span class="rule-number">08</span>
+                <div class="rule-content">
+                    <div class="rule-title">Özelden Mesajlaşma Kuralları</div>
+                    <div class="rule-desc">Tanımadığınız kişilere özelden mesaj atmanız uygun değildir. Özel mesajlaşma sürecinde ısrarcı davranış, baskı kurma veya rahatsız edici iletişim kesinlikle yasaktır.</div>
+                </div>
+            </div>
+
+            <!-- 9 -->
+            <div class="rule-card">
+                <span class="rule-number">09</span>
+                <div class="rule-content">
+                    <div class="rule-title">Gizlilik ve Güvenlik</div>
+                    <div class="rule-desc">Topluluk içinde paylaşılan hiçbir özel bilgi, ekran görüntüsü veya özel konuşma üçüncü kişilerle paylaşılmaz. Üyelerin konumu, özel hayatı ve kişisel problemleri gizlilik ilkesiyle korunur.</div>
+                </div>
+            </div>
+
+            <!-- 10 -->
+            <div class="rule-card">
+                <span class="rule-number">10</span>
+                <div class="rule-content">
+                    <div class="rule-title">Topluluk Bilinci ve Temsil</div>
+                    <div class="rule-desc">Hoodie Network’ü temsil ederken olgun ve saygılı bir tutum beklenir. Topluluk adına yapılacak her paylaşım veya duyuru yalnızca yöneticiler tarafından yapılabilir.</div>
+                </div>
+            </div>
+
+            <!-- 11 -->
+            <div class="rule-card">
+                <span class="rule-number">11</span>
+                <div class="rule-content">
+                    <div class="rule-title">Etkinlik Disiplini</div>
+                    <div class="rule-desc">Etkinliğe geleceğini belirten üyelerin programa sadık kalması beklenir. Gereksiz son dakika iptalleri veya söz verip gelmeme durumu diğer üyeleri etkilediği için kabul edilmez ve tekrarı çıkarılma sebebidir.</div>
+                </div>
+            </div>
+
+            <!-- 12 -->
+            <div class="rule-card">
+                <span class="rule-number">12</span>
+                <div class="rule-content">
+                    <div class="rule-title">Uyumu Bozan Davranışlar</div>
+                    <div class="rule-desc">Dışlayıcı tutum, gruplaşma, dedikodu, yönlendirme veya diğer üyeleri rahatsız edebilecek klikleşme davranışları yasaktır.</div>
+                </div>
+            </div>
+
+            <!-- 13 -->
+            <div class="rule-card">
+                <span class="rule-number">13</span>
+                <div class="rule-content">
+                    <div class="rule-title">Ticari Çıkar Sağlama ve Manipülasyon Yasaktır</div>
+                    <div class="rule-desc">Üyelere ürün satmaya çalışma, yatırım isteme, borç talep etme, MLM benzeri teklifler veya finansal yönlendirme yapmak kesinlikle yasaktır. Topluluk ilişkileri ticari çıkara dönüştürülemez.</div>
+                </div>
+            </div>
+
+            <!-- 14 -->
+            <div class="rule-card">
+                <span class="rule-number">14</span>
+                <div class="rule-content">
+                    <div class="rule-title">Romantik ve Sosyal İletişim Çerçevesi</div>
+                    <div class="rule-desc">Üyeler arası yakınlaşmalar olabilir; ancak ısrarcı yaklaşım, manipülatif davranış veya karşı tarafın istemediği iletişim şekilleri kabul edilmez. Hayır cevabı net olarak kabul edilir.</div>
+                </div>
+            </div>
+
+            <!-- 15 -->
+            <div class="rule-card">
+                <span class="rule-number">15</span>
+                <div class="rule-content">
+                    <div class="rule-title">Kurallara Uyumsuzluk Durumu</div>
+                    <div class="rule-desc">Kuralları tekrar tekrar ihlal eden, huzuru bozan veya topluluk bütünlüğünü tehlikeye atan kişiler yöneticilerin kararıyla uyarı yapılmadan çıkarılabilir.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="back-btn-container">
+            <a href="index.html" class="back-btn">← Ana Sayfaya Dön</a>
+        </div>
+    </div>
+
+</body>
+</html>

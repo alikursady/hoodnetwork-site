@@ -1,90 +1,536 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hood Network</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #111115;
-      color: #f5f5f5;
-      display: flex;
-      min-height: 100vh;
-      align-items: center;
-      justify-content: center;
-    }
-    .container {
-      max-width: 640px;
-      padding: 24px;
-      text-align: center;
-    }
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-    p {
-      line-height: 1.6;
-      opacity: 0.9;
-    }
-    .badge {
-      display: inline-block;
-      padding: 6px 12px;
-      border-radius: 999px;
-      border: 1px solid #333;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 16px;
-      opacity: 0.85;
-    }
-    .buttons {
-      margin-top: 24px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      justify-content: center;
-    }
-    .btn {
-      padding: 10px 18px;
-      border-radius: 999px;
-      border: 1px solid #444;
-      background: #18181f;
-      color: #f5f5f5;
-      text-decoration: none;
-      font-size: 0.9rem;
-    }
-    .btn.outline {
-      background: transparent;
-    }
-    .note {
-      margin-top: 18px;
-      font-size: 0.75rem;
-      opacity: 0.7;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hood Network | Coming Soon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: #141414;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --neon-blue: #00f2ff;
+            --neon-purple: #bc13fe;
+            --neon-pink: #ff0055;
+            --gradient-bg: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Arka Plan Efektleri */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0.8)),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23222222' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .glow-spot {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(188, 19, 254, 0.08) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .glow-spot-2 {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 242, 255, 0.05) 0%, transparent 70%);
+            bottom: -100px;
+            left: -100px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .text-center { text-align: center; }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 60px 20px;
+            overflow: hidden;
+        }
+
+        /* Neon Lines Animation */
+        .hero-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .line {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, var(--neon-blue), transparent);
+            opacity: 0.5;
+            animation: drop 3s infinite ease-in-out;
+        }
+        
+        .line:nth-child(1) { left: 10%; top: -100px; animation-delay: 0s; height: 150px; }
+        .line:nth-child(2) { left: 30%; top: -100px; animation-delay: 1.5s; height: 100px; }
+        .line:nth-child(3) { left: 70%; top: -100px; animation-delay: 0.8s; height: 200px; }
+        .line:nth-child(4) { left: 90%; top: -100px; animation-delay: 2.2s; height: 120px; }
+
+        @keyframes drop {
+            0% { transform: translateY(-200px); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 900;
+            letter-spacing: -3px;
+            color: #fff;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            background: linear-gradient(to bottom right, #ffffff 30%, #888888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p.subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 4rem;
+            font-weight: 300;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .coming-soon-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 24px;
+            border: 1px solid rgba(188, 19, 254, 0.3);
+            border-radius: 50px;
+            background: rgba(188, 19, 254, 0.05);
+            color: var(--neon-purple);
+            font-size: 0.85rem;
+            margin-bottom: 2.5rem;
+            letter-spacing: 2px;
+            font-weight: 600;
+            text-transform: uppercase;
+            box-shadow: 0 0 20px rgba(188, 19, 254, 0.1);
+            position: relative;
+        }
+        
+        .coming-soon-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background-color: var(--neon-purple);
+            border-radius: 50%;
+            margin-right: 10px;
+            box-shadow: 0 0 10px var(--neon-purple);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; box-shadow: 0 0 0 0 rgba(188, 19, 254, 0.7); }
+            70% { opacity: 0.8; box-shadow: 0 0 0 10px rgba(188, 19, 254, 0); }
+            100% { opacity: 1; box-shadow: 0 0 0 0 rgba(188, 19, 254, 0); }
+        }
+
+        /* Countdown Enhanced */
+        .countdown {
+            display: flex;
+            gap: 3rem;
+            margin-bottom: 4rem;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 30px 50px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            min-width: 80px;
+        }
+        
+        .countdown-item:not(:last-child)::after {
+            content: ":";
+            position: absolute;
+            right: -1.8rem;
+            top: 10px;
+            font-size: 2rem;
+            color: rgba(255,255,255,0.2);
+            font-weight: 300;
+        }
+
+        .countdown-number {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1;
+            color: #fff;
+            text-shadow: 0 0 15px rgba(0, 242, 255, 0.6);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .countdown-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 100px 0;
+            background: linear-gradient(to bottom, #0a0a0a, #111);
+            position: relative;
+            z-index: 2;
+        }
+
+        .about-desc {
+            max-width: 800px;
+            margin: 0 auto 80px;
+            font-size: 1.2rem;
+            color: #cccccc;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 50px 30px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.03) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+        }
+        
+        .feature-card:hover::before { opacity: 1; }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 25px;
+            display: inline-block;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+        }
+
+        .feature-title {
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 120px 0 80px;
+            text-align: center;
+            background: #111;
+        }
+
+        .rules-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 50px;
+            background: rgba(188, 19, 254, 0.1);
+            color: #fff;
+            border: 1px solid var(--neon-purple);
+            border-radius: 100px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(188, 19, 254, 0.15);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .rules-btn:hover {
+            background: var(--neon-purple);
+            box-shadow: 0 0 50px rgba(188, 19, 254, 0.5);
+            transform: scale(1.05);
+            color: #fff;
+        }
+
+        /* KVKK Section */
+        .kvkk-section {
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: #0f0f0f;
+        }
+
+        .kvkk-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 2px;
+            transition: all 0.3s;
+        }
+
+        .kvkk-link:hover {
+            color: var(--neon-blue);
+            border-bottom-color: var(--neon-blue);
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 0;
+            text-align: center;
+            background: #0a0a0a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 10px 20px;
+            border-radius: 50px;
+            background: rgba(255,255,255,0.03);
+        }
+
+        .social-link:hover { 
+            background: rgba(255,255,255,0.08);
+            transform: translateY(-2px);
+        }
+        
+        .social-link svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        .copyright {
+            color: #444;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .countdown { gap: 1rem; padding: 20px; width: 100%; justify-content: center; }
+            .countdown-number { font-size: 2rem; }
+            .countdown-item { min-width: auto; }
+            .countdown-item:not(:last-child)::after { font-size: 1.5rem; right: -0.8rem; }
+            .features-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="badge">Hood Network</div>
-    <h1>Ankara merkezli seçilmiş bir sosyal ağ.</h1>
-    <p>
-      Hoodie / Hood Network topluluğunun resmi web sitesi yakında burada.
-      Uygulama yayına girdiğinde etkinlikler, üyelikler ve daha fazlası bu alan adından yönetilecek.
-    </p>
+    
+    <div class="glow-spot"></div>
+    <div class="glow-spot-2"></div>
 
-    <div class="buttons">
-      <a class="btn" href="mailto:info@hoodnetwork.org">Bize ulaşın</a>
-      <a class="btn outline" href="/kvkk.pdf" target="_blank" rel="noopener">
-        KVKK Aydınlatma Metni
-      </a>
-    </div>
+    <!-- Hero Section -->
+    <header class="hero">
+        <!-- Animated Background Lines -->
+        <div class="hero-lines">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
 
-    <p class="note">
-      Kişisel verilerin işlenmesine ilişkin KVKK Aydınlatma Metni’ne
-      her zaman <strong>hoodnetwork.org/kvkk.pdf</strong> adresinden erişebilirsiniz.
-    </p>
-  </div>
+        <div class="coming-soon-badge">Uygulama Yakında Geliyor</div>
+        <h1>Hood Network</h1>
+        <p class="subtitle">Ankara’da seçilmiş üyelerden oluşan özel bir topluluk.</p>
+        
+        <!-- Countdown -->
+        <div class="countdown">
+            <div class="countdown-item">
+                <span class="countdown-number" id="days">00</span>
+                <span class="countdown-label">GÜN</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="hours">00</span>
+                <span class="countdown-label">SAAT</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="minutes">00</span>
+                <span class="countdown-label">DAK</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="seconds">00</span>
+                <span class="countdown-label">SN</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- What is Hood Network -->
+    <section class="about-section">
+        <div class="container text-center">
+            <h2 style="margin-bottom: 2rem; font-size: 2.5rem; font-weight: 800; color: #fff;">Hood Network Nedir?</h2>
+            <p class="about-desc">
+                Hood Network, Ankara’da sosyal çevresini genişletmek, kaliteli insanlarla tanışmak ve güvenli bir topluluk içinde yer almak isteyen bireyler için oluşturulmuş modern bir sosyal ağ topluluğudur.
+            </p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">🌐</span>
+                    <div class="feature-title">Sosyal Bağlantılar</div>
+                    <p style="font-size: 0.95rem; color: #999;">Seçkin üyelerle tanışın ve profesyonel ağınızı güvenle genişletin.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🥂</span>
+                    <div class="feature-title">Özel Etkinlikler</div>
+                    <p style="font-size: 0.95rem; color: #999;">Sadece üyelere özel kapalı davetlere ve organizasyonlara katılın.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🛡️</span>
+                    <div class="feature-title">Güvenli Topluluk</div>
+                    <p style="font-size: 0.95rem; color: #999;">Referans sistemiyle korunan, huzurlu ve elit bir ortam.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rules Button -->
+    <section class="cta-section">
+        <div class="container">
+            <a href="kurallar.html" class="rules-btn">Topluluk Kuralları</a>
+        </div>
+    </section>
+
+    <!-- KVKK -->
+    <section class="kvkk-section">
+        <div class="container">
+            <h4 style="margin-bottom: 15px; color: #fff; font-weight: 600;">Yasal Bilgilendirme</h4>
+            <a href="/kvkk.pdf" target="_blank" class="kvkk-link">KVKK Aydınlatma Metni'ni Görüntüle</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <a href="https://instagram.com/hoodnetwork.app" target="_blank" class="social-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            @hoodnetwork.app
+        </a>
+        <div class="copyright">
+            &copy; Hood Network – 2025
+        </div>
+    </footer>
+
+    <script>
+        // Hedef Tarih: 15 Aralık 2024, Saat 00:00
+        // Not: Eğer bu tarih geçtiyse, sayaç 00 gösterecek veya 2025'e ayarlanmalı.
+        // Şimdilik 2024 olarak ayarlıyorum.
+        const targetDate = new Date("December 15, 2025 00:00:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                document.getElementById("days").innerText = "00";
+                document.getElementById("hours").innerText = "00";
+                document.getElementById("minutes").innerText = "00";
+                document.getElementById("seconds").innerText = "00";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
 </body>
 </html>
