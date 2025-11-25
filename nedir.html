@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Hood Network nedir? Ankara'da samimiyet ve güven odaklı sosyal topluluk. Şehirde kendine yakın insanlar bulmak ve yeni deneyimler yaşamak için bize katılın.">
+    <meta name="keywords" content="Hood Network nedir, Ankara sosyal topluluk, Hood Network hikayesi, Hood Network amacı, Ankara etkinlik grubu">
+    <meta name="author" content="Hood Network">
+    <meta name="robots" content="index, follow">
+    
+    <title>Hood Network Nedir? | Topluluk Hikayesi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #050505;
+            --bg-card: rgba(20, 20, 20, 0.7);
+            --text-main: #ffffff;
+            --text-muted: #b0b0b0;
+            --neon-blue: #00f2ff;
+            --neon-purple: #bc13fe;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* Canvas Background */
+        #networkCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header */
+        header {
+            padding: 120px 0 60px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -2px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--neon-blue);
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
+
+        /* Content Sections */
+        .content-section {
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .text-block {
+            font-size: 1.15rem;
+            color: #d0d0d0;
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        .highlight-box {
+            background: var(--bg-card);
+            border-left: 4px solid var(--neon-purple);
+            padding: 40px;
+            margin: 40px 0;
+            border-radius: 0 12px 12px 0;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-right: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .highlight-title {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .highlight-title svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--neon-purple);
+        }
+
+        .purpose-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .purpose-list li {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+            color: var(--text-muted);
+        }
+
+        .purpose-list li::before {
+            content: '➢';
+            position: absolute;
+            left: 0;
+            color: var(--neon-blue);
+            font-weight: bold;
+        }
+
+        /* Activities Grid */
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .activity-badge {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.3s;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .activity-badge:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--neon-blue);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 242, 255, 0.1);
+        }
+
+        /* Footer / Navigation */
+        .nav-footer {
+            margin-top: 80px;
+            padding: 40px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: transparent;
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+        }
+
+        .btn-primary:hover {
+            background: rgba(0, 242, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid #444;
+            color: #aaa;
+        }
+
+        .btn-secondary:hover {
+            border-color: #fff;
+            color: #fff;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            header { padding-top: 80px; }
+            .highlight-box { padding: 25px; }
+            .text-block { font-size: 1rem; }
+            .nav-footer { flex-direction: column; align-items: center; }
+            .btn { width: 100%; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="networkCanvas"></canvas>
+
+    <div class="container">
+        <header class="reveal active">
+            <div class="subtitle">Hikayemiz & Vizyonumuz</div>
+            <h1>Hood Network Nedir?</h1>
+        </header>
+
+        <section class="content-section reveal">
+            <p class="text-block">
+                <strong style="color: #fff;">Hood Network</strong> (eski adıyla Hoodie Network), Ankara’da insanların gerçekten bağ kurabildiği, samimiyetin ve güvenin ön planda olduğu bir sosyal topluluk olarak ortaya çıktı. Başlangıçta küçük bir arkadaş çevresini bir araya getirmek için kurulmuşken, bugün kendi enerjisini üreten, düzenli etkinlikleri olan ve üyelerinin hayatına somut katkılar sağlayan bir yapıya dönüştü.
+            </p>
+        </section>
+
+        <section class="content-section reveal">
+            <div class="highlight-box">
+                <div class="highlight-title">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                    Bizi Farklı Kılan Nedir?
+                </div>
+                <p class="text-block" style="margin-bottom: 0;">
+                    Hood Network’ü diğer gruplardan ayıran şey, sadece bir "sohbet" ortamı sunmamasıdır. Burada amaç;
+                </p>
+                <ul class="purpose-list">
+                    <li>Şehirde kendine yakın insanlar bulmak,</li>
+                    <li>Sosyal çevreyi güçlendirmek,</li>
+                    <li>Güvenli ve keyifli bir ortamda yeni deneyimler yaşamak,</li>
+                    <li>Sağlıklı, pozitif ve seviyeli ilişkiler yaratmak.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="content-section reveal">
+            <h2 style="font-size: 2rem; margin-bottom: 30px; font-weight: 700; color: #fff;">Neler Yapıyoruz?</h2>
+            <p class="text-block">
+                Topluluk; üyelerine hem eğlenceli hem de geliştirici aktiviteler düzenleyerek gerçek bir sosyal ekosistem sunuyor. Ekibe dahil olan herkesin uyumu, enerjisi ve katkısı topluluğun kalitesini belirliyor; bu yüzden seçici, düzenli ve bilinçli bir yapı benimseniyor.
+            </p>
+            <div class="activities-grid">
+                <div class="activity-badge">☕ Kahve Buluşmaları</div>
+                <div class="activity-badge">🌃 Akşam Etkinlikleri</div>
+                <div class="activity-badge">🗺️ Geziler</div>
+                <div class="activity-badge">🎨 Atölyeler</div>
+                <div class="activity-badge">🏀 Spor Buluşmaları</div>
+                <div class="activity-badge">📚 Kitap Günleri</div>
+                <div class="activity-badge">⛺ Kamp Organizasyonları</div>
+                <div class="activity-badge">🎲 Oyun Geceleri</div>
+            </div>
+        </section>
+
+        <section class="content-section reveal" style="text-align: center; margin-top: 100px;">
+            <p class="text-block" style="text-align: center; font-size: 1.3rem; color: #fff; max-width: 700px; margin: 0 auto;">
+                Kısacası Hood Network, Ankara’da hayatını daha sosyal, daha renkli ve daha bağlantılı yaşamak isteyen insanların buluştuğu topluluk odaklı bir sosyal hareket. Buraya gelen herkes hem kendine değer katıyor hem de topluluğun büyümesine katkı sağlıyor.
+            </p>
+        </section>
+
+        <div class="nav-footer reveal">
+            <a href="index.html" class="btn btn-primary">Ana Sayfaya Dön</a>
+            <a href="kurallar.html" class="btn btn-secondary">Kuralları İncele</a>
+        </div>
+    </div>
+
+    <script>
+        // --- Scroll Reveal Animation ---
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal();
+
+        // --- Network Canvas Animation (Shared Logic) ---
+        const canvas = document.getElementById("networkCanvas");
+        const ctx = canvas.getContext("2d");
+        
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.3; 
+                this.vy = (Math.random() - 0.5) * 0.3;
+                this.size = Math.random() * 2 + 1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 60; i++) {
+            particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            particles.forEach((p, index) => {
+                p.update();
+                p.draw();
+                for (let j = index; j < particles.length; j++) {
+                    let p2 = particles[j];
+                    let dx = p.x - p2.x;
+                    let dy = p.y - p2.y;
+                    let distance = Math.sqrt(dx*dx + dy*dy);
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.05 - distance/2000})`; 
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>
