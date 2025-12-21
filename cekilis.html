@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Hood Network Secret Santa çekilişi. Herkes bir kişiye hediye alır, herkes bir kişiden hediye alır. Çekiliş sonuçları 20:25’te otomatik açıklanır ve saklanır.">
+    <meta name="description" content="Hood Network Secret Santa çekilişi. Herkes bir kişiye hediye alır, herkes bir kişiden hediye alır. Çekiliş sonuçları 20:35’te otomatik açıklanır ve saklanır.">
     <meta name="robots" content="noindex, nofollow">
     <title>Hood Network Secret Santa Çekilişi</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -384,7 +384,7 @@
         <header class="hero container">
             <p class="kicker">🎄 Hood Network Secret Santa</p>
             <h1>Secret Santa Çekilişi</h1>
-            <p class="lede">Herkes bir kişiye hediye alır, herkes bir kişiden hediye alır. Çekiliş 20:25 (Türkiye saati) olduğunda otomatik başlar ve sonuçlar saklanır.</p>
+            <p class="lede">Herkes bir kişiye hediye alır, herkes bir kişiden hediye alır. Çekiliş 20:35 (Türkiye saati) olduğunda otomatik başlar ve sonuçlar saklanır.</p>
 
             <section class="countdown-card" aria-live="polite">
                 <div id="countdown" class="countdown-grid">
@@ -401,7 +401,7 @@
                         <span class="count-label">Saniye</span>
                     </div>
                 </div>
-                <p id="statusText" class="status-text">Çekiliş 20:25’te başlayacak. Beklemede kalın.</p>
+                <p id="statusText" class="status-text">Çekiliş 20:35’te başlayacak. Beklemede kalın.</p>
             </section>
         </header>
 
@@ -464,11 +464,11 @@
 
     <script>
         (() => {
-            const DRAW_STORAGE_KEY = 'hoodSecretSanta2024Results_v5';
-            const VIEW_LOCK_STORAGE_KEY = 'hoodSecretSantaViewLock_v5';
+            const DRAW_STORAGE_KEY = 'hoodSecretSanta2024Results_v7';
+            const VIEW_LOCK_STORAGE_KEY = 'hoodSecretSantaViewLock_v7';
             const TURKEY_OFFSET_MINUTES = 180; // UTC+3
             const DRAW_HOUR = 20;
-            const DRAW_MINUTE = 25;
+            const DRAW_MINUTE = 35;
 
             const participants = [
                 { id: 'alper', label: 'Alper' },
@@ -706,7 +706,7 @@
 
                 if (diff <= 0) {
                     countdownEl.innerHTML = '<p class="countdown-ready-text">Çekiliş başlamak üzere…</p>';
-                    statusText.textContent = 'Saat 20:25 oldu. Çekiliş başlıyor!';
+                    statusText.textContent = 'Saat 20:35 oldu. Çekiliş başlıyor!';
                     return diff;
                 }
 
@@ -730,7 +730,7 @@
                     </div>
                 `;
 
-                statusText.textContent = 'Çekiliş 20:25’te başlayacak. Beklemede kalın.';
+                statusText.textContent = 'Çekiliş 20:35’te başlayacak. Beklemede kalın.';
                 return diff;
             }
 
