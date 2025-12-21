@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Hood Network Secret Santa çekilişi. Herkes bir kişiye hediye alır, herkes bir kişiden hediye alır. Çekiliş sonuçları 20:35’te otomatik açıklanır ve saklanır.">
+    <meta name="description" content="Hood Network Secret Santa çekilişi. Herkes bir kişiye hediye alır, herkes bir kişiden hediye alır. Çekiliş sonuçları 20:55’te otomatik açıklanır, gizlice saklanır ve yenilense bile değişmez.">
     <meta name="robots" content="noindex, nofollow">
     <title>Hood Network Secret Santa Çekilişi</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -384,7 +384,7 @@
         <header class="hero container">
             <p class="kicker">🎄 Hood Network Secret Santa</p>
             <h1>Secret Santa Çekilişi</h1>
-            <p class="lede">Herkes bir kişiye hediye alır, herkes bir kişiden hediye alır. Çekiliş 20:35 (Türkiye saati) olduğunda otomatik başlar ve sonuçlar saklanır.</p>
+            <p class="lede">Herkes bir kişiye hediye alır, herkes bir kişiden hediye alır. Çekiliş 20:55 (Türkiye saati) olduğunda otomatik başlar ve sonuçlar gizlice kaydedilir.</p>
 
             <section class="countdown-card" aria-live="polite">
                 <div id="countdown" class="countdown-grid">
@@ -401,7 +401,7 @@
                         <span class="count-label">Saniye</span>
                     </div>
                 </div>
-                <p id="statusText" class="status-text">Çekiliş 20:35’te başlayacak. Beklemede kalın.</p>
+                <p id="statusText" class="status-text">Çekiliş 20:55’te başlayacak. Beklemede kalın.</p>
             </section>
         </header>
 
@@ -446,6 +446,7 @@
             </div>
             <div class="privacy-wrapper">
                 <p class="privacy-text">Çekiliş tamamlandığında ismini seçip “Sonucu Göster”e tıklayarak kime hediye alacağını öğren.</p>
+                <p class="privacy-text">Sonucu gördüğün anda eşleşmen tarayıcına gizli şekilde kaydedilir; sayfayı yenilesen bile bu cihazda değişmez.</p>
                 <p id="lockNotice" class="privacy-warning">Lütfen yalnızca kendi adını seç. Sonucu gördüğünde bu cihaz diğer isimleri göstermeyecek.</p>
                 <div class="selector-group">
                     <label for="participantSelect">İsmini seç</label>
@@ -464,11 +465,12 @@
 
     <script>
         (() => {
-            const DRAW_STORAGE_KEY = 'hoodSecretSanta2024Results_v7';
-            const VIEW_LOCK_STORAGE_KEY = 'hoodSecretSantaViewLock_v7';
+            const STORAGE_SCHEMA_VERSION = '2024-12-21-2055';
+            const DRAW_STORAGE_KEY = 'hoodSecretSantaResults';
+            const VIEW_LOCK_STORAGE_KEY = 'hoodSecretSantaViewLock';
             const TURKEY_OFFSET_MINUTES = 180; // UTC+3
             const DRAW_HOUR = 20;
-            const DRAW_MINUTE = 35;
+            const DRAW_MINUTE = 55;
 
             const participants = [
                 { id: 'alper', label: 'Alper' },
@@ -504,7 +506,16 @@
                 get() {
                     try {
                         const raw = localStorage.getItem(DRAW_STORAGE_KEY);
-                        return raw ? JSON.parse(raw) : null;
+                        if (!raw) return null;
+                        const parsed = JSON.parse(raw);
+                        if (
+                            !parsed ||
+                            !Array.isArray(parsed.assignments) ||
+                            parsed.assignments.length !== participants.length
+                        ) {
+                            return null;
+                        }
+                        return parsed;
                     } catch (error) {
                         console.warn('localStorage okunamadı', error);
                         return null;
@@ -512,9 +523,19 @@
                 },
                 set(payload) {
                     try {
-                        localStorage.setItem(DRAW_STORAGE_KEY, JSON.stringify(payload));
+                        localStorage.setItem(
+                            DRAW_STORAGE_KEY,
+                            JSON.stringify({ ...payload, version: STORAGE_SCHEMA_VERSION })
+                        );
                     } catch (error) {
                         console.warn('localStorage yazılamadı', error);
+                    }
+                },
+                clear() {
+                    try {
+                        localStorage.removeItem(DRAW_STORAGE_KEY);
+                    } catch (error) {
+                        console.warn('localStorage silinemedi', error);
                     }
                 }
             };
@@ -523,7 +544,12 @@
                 get() {
                     try {
                         const raw = localStorage.getItem(VIEW_LOCK_STORAGE_KEY);
-                        return raw ? JSON.parse(raw) : null;
+                        if (!raw) return null;
+                        const parsed = JSON.parse(raw);
+                        if (!parsed || !parsed.participantId) {
+                            return null;
+                        }
+                        return parsed;
                     } catch (error) {
                         console.warn('view lock okunamadı', error);
                         return null;
@@ -531,7 +557,10 @@
                 },
                 set(payload) {
                     try {
-                        localStorage.setItem(VIEW_LOCK_STORAGE_KEY, JSON.stringify(payload));
+                        localStorage.setItem(
+                            VIEW_LOCK_STORAGE_KEY,
+                            JSON.stringify({ ...payload, version: STORAGE_SCHEMA_VERSION, drawKey: DRAW_STORAGE_KEY })
+                        );
                     } catch (error) {
                         console.warn('view lock yazılamadı', error);
                     }
@@ -706,7 +735,7 @@
 
                 if (diff <= 0) {
                     countdownEl.innerHTML = '<p class="countdown-ready-text">Çekiliş başlamak üzere…</p>';
-                    statusText.textContent = 'Saat 20:35 oldu. Çekiliş başlıyor!';
+                    statusText.textContent = 'Saat 20:55 oldu. Çekiliş başlıyor!';
                     return diff;
                 }
 
@@ -730,7 +759,7 @@
                     </div>
                 `;
 
-                statusText.textContent = 'Çekiliş 20:35’te başlayacak. Beklemede kalın.';
+                statusText.textContent = 'Çekiliş 20:55’te başlayacak. Beklemede kalın.';
                 return diff;
             }
 
