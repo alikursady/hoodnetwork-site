@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Hood Network Secret Santa çekilişi. Herkes bir kişiye hediye alır, herkes bir kişiden hediye alır. Çekiliş sonuçları 19:45’te otomatik açıklanır ve saklanır.">
+    <meta name="description" content="Hood Network Secret Santa çekilişi. Herkes bir kişiye hediye alır, herkes bir kişiden hediye alır. Çekiliş sonuçları 20:25’te otomatik açıklanır ve saklanır.">
     <meta name="robots" content="noindex, nofollow">
     <title>Hood Network Secret Santa Çekilişi</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -236,37 +236,85 @@
             display: block;
         }
 
-        .results-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+        .privacy-wrapper {
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 18px;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.02);
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 18px;
         }
 
-        .results-list li {
+        .privacy-text {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .selector-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .selector-group label {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        #participantSelect {
+            flex: 1;
+            min-width: 180px;
+            padding: 12px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.4);
+            color: var(--text-main);
+            font-weight: 600;
+            outline: none;
+        }
+
+        #participantSelect:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .reveal-btn {
+            min-width: 160px;
+        }
+
+        .personal-result {
+            border-radius: 16px;
+            padding: 16px 18px;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-weight: 600;
+            min-height: 64px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 14px 18px;
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            font-weight: 600;
-            flex-wrap: wrap;
         }
 
-        .results-list .giver {
+        .personal-result span {
+            display: block;
+        }
+
+        .personal-result .giver {
             color: var(--accent);
         }
 
-        .results-list .receiver {
+        .personal-result .receiver {
             color: var(--success);
         }
 
-        .results-list .arrow {
-            opacity: 0.8;
+        .personal-result .arrow {
+            margin: 0 8px;
+            opacity: 0.7;
+        }
+
+        .copy-btn {
+            align-self: flex-start;
         }
 
         .timestamp {
@@ -306,6 +354,19 @@
             .countdown-grid {
                 gap: 1rem;
             }
+
+            .selector-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            #participantSelect {
+                width: 100%;
+            }
+
+            .reveal-btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -316,7 +377,7 @@
         <header class="hero container">
             <p class="kicker">🎄 Hood Network Secret Santa</p>
             <h1>Secret Santa Çekilişi</h1>
-            <p class="lede">Herkes bir kişiye hediye alır, herkes bir kişiden hediye alır. Çekiliş 19:45 (Türkiye saati) olduğunda otomatik başlar ve sonuçlar saklanır.</p>
+            <p class="lede">Herkes bir kişiye hediye alır, herkes bir kişiden hediye alır. Çekiliş 20:25 (Türkiye saati) olduğunda otomatik başlar ve sonuçlar saklanır.</p>
 
             <section class="countdown-card" aria-live="polite">
                 <div id="countdown" class="countdown-grid">
@@ -333,7 +394,7 @@
                         <span class="count-label">Saniye</span>
                     </div>
                 </div>
-                <p id="statusText" class="status-text">Çekiliş 19:45’te başlayacak. Beklemede kalın.</p>
+                <p id="statusText" class="status-text">Çekiliş 20:25’te başlayacak. Beklemede kalın.</p>
             </section>
         </header>
 
@@ -374,19 +435,31 @@
         <section id="resultsSection" class="card container results-card">
             <div class="card-header">
                 <h2>Hediye Zinciri</h2>
-                <p class="card-subtitle">Çekiliş tamamlandığında herkesin kime hediye alacağı kalıcı olarak burada listelenir.</p>
+                <p class="card-subtitle">Sonuçlar sürpriz olarak saklanır. Herkes yalnızca kime hediye alacağını kendisi görebilir.</p>
             </div>
-            <ol id="resultsList" class="results-list"></ol>
+            <div class="privacy-wrapper">
+                <p class="privacy-text">Çekiliş tamamlandığında ismini seçip “Sonucu Göster”e tıklayarak kime hediye alacağını öğren.</p>
+                <div class="selector-group">
+                    <label for="participantSelect">İsmini seç</label>
+                    <select id="participantSelect" disabled>
+                        <option value="">İsmini seç</option>
+                    </select>
+                    <button id="revealButton" type="button" class="ghost-button reveal-btn" disabled>Sonucu Göster</button>
+                </div>
+                <div id="personalResult" class="personal-result">Çekiliş tamamlandığında sonuç burada görünecek.</div>
+                <button id="copyLinkButton" type="button" class="ghost-button copy-btn" disabled>Kişisel linki kopyala</button>
+                <p class="privacy-text">Paylaşmak istersen bu buton URL’nin sonuna “?kisi=senin-id” ekleyip panoya kopyalar. Linki sadece ilgili kişiyle paylaş.</p>
+            </div>
             <p id="completedAt" class="timestamp"></p>
         </section>
     </main>
 
     <script>
         (() => {
-            const DRAW_STORAGE_KEY = 'hoodSecretSanta2024Results_v3';
+            const DRAW_STORAGE_KEY = 'hoodSecretSanta2024Results_v5';
             const TURKEY_OFFSET_MINUTES = 180; // UTC+3
-            const DRAW_HOUR = 19;
-            const DRAW_MINUTE = 45;
+            const DRAW_HOUR = 20;
+            const DRAW_MINUTE = 25;
 
             const participants = [
                 { id: 'alper', label: 'Alper' },
@@ -409,7 +482,11 @@
             const statusText = document.getElementById('statusText');
             const liveFeed = document.getElementById('liveFeed');
             const resultsSection = document.getElementById('resultsSection');
-            const resultsList = document.getElementById('resultsList');
+            const participantSelect = document.getElementById('participantSelect');
+            const revealButton = document.getElementById('revealButton');
+            const personalResult = document.getElementById('personalResult');
+            const copyLinkButton = document.getElementById('copyLinkButton');
+            const copyButtonDefaultText = copyLinkButton ? copyLinkButton.textContent : '';
             const completedAt = document.getElementById('completedAt');
             const replayButton = document.getElementById('replayButton');
 
@@ -434,6 +511,76 @@
 
             let revealInProgress = false;
             let storedAssignments = null;
+            let assignmentByGiver = null;
+            let revealReady = false;
+            let pendingRevealId = null;
+            let copyResetTimeout = null;
+
+            if (participantSelect) {
+                participants.forEach(person => {
+                    const option = document.createElement('option');
+                    option.value = person.id;
+                    option.textContent = person.label;
+                    participantSelect.appendChild(option);
+                });
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlParticipant = urlParams.get('kisi');
+            if (urlParticipant) {
+                const normalized = urlParticipant.trim().toLowerCase();
+                const match = participants.find(person => person.id === normalized);
+                if (match) {
+                    pendingRevealId = match.id;
+                }
+            }
+
+            if (participantSelect) {
+                participantSelect.addEventListener('change', () => {
+                    updateRevealControlsState();
+                });
+            }
+
+            if (revealButton) {
+                revealButton.addEventListener('click', () => {
+                    if (!participantSelect || !participantSelect.value) {
+                        return;
+                    }
+                    revealAssignmentFor(participantSelect.value);
+                });
+            }
+
+            if (copyLinkButton) {
+                copyLinkButton.addEventListener('click', async () => {
+                    if (!participantSelect || !participantSelect.value) {
+                        return;
+                    }
+                    const baseUrl = new URL(window.location.href);
+                    baseUrl.searchParams.set('kisi', participantSelect.value);
+                    const linkToCopy = baseUrl.toString();
+                    try {
+                        if (navigator.clipboard && navigator.clipboard.writeText) {
+                            await navigator.clipboard.writeText(linkToCopy);
+                        } else {
+                            const tempInput = document.createElement('input');
+                            tempInput.value = linkToCopy;
+                            document.body.appendChild(tempInput);
+                            tempInput.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(tempInput);
+                        }
+                        copyLinkButton.textContent = 'Link kopyalandı ✓';
+                    } catch (error) {
+                        console.warn('Link kopyalanamadı', error);
+                        copyLinkButton.textContent = 'Kopyalanamadı :(';
+                    } finally {
+                        clearTimeout(copyResetTimeout);
+                        copyResetTimeout = setTimeout(() => {
+                            copyLinkButton.textContent = copyButtonDefaultText || 'Kişisel linki kopyala';
+                        }, 2200);
+                    }
+                });
+            }
 
             const savedData = storage.get();
             const hasCompleteSavedData = Boolean(
@@ -455,7 +602,7 @@
             if (hasCompleteSavedData) {
                 storedAssignments = savedData.assignments;
                 showFinalResults(storedAssignments, savedData.completedAt, true);
-                statusText.textContent = 'Çekiliş daha önce tamamlandı. Sonuçlar sabitlendi.';
+                statusText.textContent = 'Çekiliş daha önce tamamlandı. Sonuçlar gizli olarak saklandı.';
                 replayButton.hidden = false;
             } else {
                 replayButton.hidden = true;
@@ -498,7 +645,7 @@
 
                 if (diff <= 0) {
                     countdownEl.innerHTML = '<p class="countdown-ready-text">Çekiliş başlamak üzere…</p>';
-                    statusText.textContent = 'Saat 19:45 oldu. Çekiliş başlıyor!';
+                    statusText.textContent = 'Saat 20:25 oldu. Çekiliş başlıyor!';
                     return diff;
                 }
 
@@ -522,7 +669,7 @@
                     </div>
                 `;
 
-                statusText.textContent = 'Çekiliş 19:45’te başlayacak. Beklemede kalın.';
+                statusText.textContent = 'Çekiliş 20:25’te başlayacak. Beklemede kalın.';
                 return diff;
             }
 
@@ -571,12 +718,14 @@
                     liveFeed.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
 
-                for (const pair of assignments) {
-                    addFeedLine(`🎲 ${pair.giver} için çekiliş yapılıyor…`, 'pending');
+                const total = assignments.length;
+                for (let index = 0; index < assignments.length; index++) {
+                    const stepNumber = index + 1;
+                    addFeedLine(`🎲 ${stepNumber}/${total} katılımcı için çekiliş yapılıyor…`, 'pending');
                     await wait(1200);
-                    addFeedLine(`✨ ${pair.giver} → ${pair.receiver} çıktı`, 'match');
+                    addFeedLine(`✨ ${stepNumber}/${total} katılımcının sonucu kilitlendi.`, 'match');
                     await wait(900);
-                    addFeedLine(`🎁 ${pair.giver}, ${pair.receiver}’e hediye alacak.`, 'confirm');
+                    addFeedLine(`🔒 Sürpriz kaydedildi, isimler gizli tutuluyor.`, 'confirm');
                     await wait(600);
                 }
 
@@ -588,19 +737,71 @@
 
             function showFinalResults(assignments, completedISO, skipAnnouncement = false) {
                 resultsSection.classList.add('visible');
-                resultsList.innerHTML = assignments.map(pair => `
-                    <li>
-                        <span class="giver">${pair.giver}</span>
-                        <span class="arrow">→</span>
-                        <span class="receiver">${pair.receiver}</span>
-                    </li>
-                `).join('');
+                assignmentByGiver = assignments.reduce((acc, pair) => {
+                    acc[pair.giverId] = pair;
+                    return acc;
+                }, {});
+
+                if (participantSelect) {
+                    participantSelect.disabled = false;
+                }
+                revealReady = true;
+                updateRevealControlsState();
+
+                if (personalResult) {
+                    personalResult.textContent = 'İsmini seçtikten sonra sonucu burada göreceksin.';
+                }
+
+                if (pendingRevealId && assignmentByGiver[pendingRevealId]) {
+                    if (participantSelect) {
+                        participantSelect.value = pendingRevealId;
+                        updateRevealControlsState();
+                    }
+                    revealAssignmentFor(pendingRevealId, false);
+                    pendingRevealId = null;
+                }
 
                 const timestamp = completedISO || new Date().toISOString();
                 completedAt.textContent = `Çekiliş tamamlandı: ${formatTurkeyDate(timestamp)}`;
 
                 if (!skipAnnouncement) {
-                    statusText.textContent = 'Çekiliş tamamlandı. Sonuçlar aşağıda sabitlendi.';
+                    statusText.textContent = 'Çekiliş tamamlandı. Sonuçlar gizli olarak saklandı.';
+                }
+            }
+
+            function revealAssignmentFor(participantId, ensureSelection = true) {
+                if (!assignmentByGiver || !assignmentByGiver[participantId]) {
+                    if (personalResult) {
+                        personalResult.textContent = 'Sonuç bulunamadı. Lütfen yöneticinizle iletişime geçin.';
+                    }
+                    return;
+                }
+
+                if (ensureSelection && participantSelect) {
+                    participantSelect.value = participantId;
+                    updateRevealControlsState();
+                }
+
+                const pair = assignmentByGiver[participantId];
+                if (personalResult) {
+                    personalResult.innerHTML = `
+                        <span class="giver">${pair.giver}</span>
+                        <span class="arrow">→</span>
+                        <span class="receiver">${pair.receiver}</span>
+                    `;
+                }
+            }
+
+            function updateRevealControlsState() {
+                const hasSelection = Boolean(participantSelect && participantSelect.value);
+                const enableActions = revealReady && hasSelection;
+
+                if (revealButton) {
+                    revealButton.disabled = !enableActions;
+                }
+
+                if (copyLinkButton) {
+                    copyLinkButton.disabled = !enableActions;
                 }
             }
 
