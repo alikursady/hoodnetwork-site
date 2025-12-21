@@ -252,6 +252,13 @@
             font-size: 0.95rem;
         }
 
+        .privacy-warning {
+            margin: 0;
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
         .selector-group {
             display: flex;
             flex-wrap: wrap;
@@ -439,6 +446,7 @@
             </div>
             <div class="privacy-wrapper">
                 <p class="privacy-text">Çekiliş tamamlandığında ismini seçip “Sonucu Göster”e tıklayarak kime hediye alacağını öğren.</p>
+                <p id="lockNotice" class="privacy-warning">Lütfen yalnızca kendi adını seç. Sonucu gördüğünde bu cihaz diğer isimleri göstermeyecek.</p>
                 <div class="selector-group">
                     <label for="participantSelect">İsmini seç</label>
                     <select id="participantSelect" disabled>
@@ -457,6 +465,7 @@
     <script>
         (() => {
             const DRAW_STORAGE_KEY = 'hoodSecretSanta2024Results_v5';
+            const VIEW_LOCK_STORAGE_KEY = 'hoodSecretSantaViewLock_v5';
             const TURKEY_OFFSET_MINUTES = 180; // UTC+3
             const DRAW_HOUR = 20;
             const DRAW_MINUTE = 25;
@@ -486,6 +495,7 @@
             const revealButton = document.getElementById('revealButton');
             const personalResult = document.getElementById('personalResult');
             const copyLinkButton = document.getElementById('copyLinkButton');
+            const lockNotice = document.getElementById('lockNotice');
             const copyButtonDefaultText = copyLinkButton ? copyLinkButton.textContent : '';
             const completedAt = document.getElementById('completedAt');
             const replayButton = document.getElementById('replayButton');
@@ -509,12 +519,47 @@
                 }
             };
 
+            const viewLockStorage = {
+                get() {
+                    try {
+                        const raw = localStorage.getItem(VIEW_LOCK_STORAGE_KEY);
+                        return raw ? JSON.parse(raw) : null;
+                    } catch (error) {
+                        console.warn('view lock okunamadı', error);
+                        return null;
+                    }
+                },
+                set(payload) {
+                    try {
+                        localStorage.setItem(VIEW_LOCK_STORAGE_KEY, JSON.stringify(payload));
+                    } catch (error) {
+                        console.warn('view lock yazılamadı', error);
+                    }
+                },
+                clear() {
+                    try {
+                        localStorage.removeItem(VIEW_LOCK_STORAGE_KEY);
+                    } catch (error) {
+                        console.warn('view lock silinemedi', error);
+                    }
+                }
+            };
+
             let revealInProgress = false;
             let storedAssignments = null;
             let assignmentByGiver = null;
             let revealReady = false;
             let pendingRevealId = null;
             let copyResetTimeout = null;
+            let lockedParticipantId = null;
+
+            const savedLock = viewLockStorage.get();
+            if (savedLock && savedLock.drawKey === DRAW_STORAGE_KEY && savedLock.participantId) {
+                lockedParticipantId = savedLock.participantId;
+                pendingRevealId = savedLock.participantId;
+            } else if (savedLock) {
+                viewLockStorage.clear();
+            }
 
             if (participantSelect) {
                 participants.forEach(person => {
@@ -527,7 +572,7 @@
 
             const urlParams = new URLSearchParams(window.location.search);
             const urlParticipant = urlParams.get('kisi');
-            if (urlParticipant) {
+            if (!lockedParticipantId && urlParticipant) {
                 const normalized = urlParticipant.trim().toLowerCase();
                 const match = participants.find(person => person.id === normalized);
                 if (match) {
@@ -537,26 +582,40 @@
 
             if (participantSelect) {
                 participantSelect.addEventListener('change', () => {
+                    if (lockedParticipantId) {
+                        participantSelect.value = lockedParticipantId;
+                        updateRevealControlsState();
+                        return;
+                    }
                     updateRevealControlsState();
                 });
             }
 
             if (revealButton) {
                 revealButton.addEventListener('click', () => {
-                    if (!participantSelect || !participantSelect.value) {
+                    if (!revealReady) {
                         return;
                     }
-                    revealAssignmentFor(participantSelect.value);
+                    const targetId = lockedParticipantId || (participantSelect && participantSelect.value);
+                    if (!targetId) {
+                        return;
+                    }
+                    if (lockedParticipantId && targetId !== lockedParticipantId) {
+                        updateRevealControlsState();
+                        return;
+                    }
+                    revealAssignmentFor(targetId);
                 });
             }
 
             if (copyLinkButton) {
                 copyLinkButton.addEventListener('click', async () => {
-                    if (!participantSelect || !participantSelect.value) {
+                    const targetId = lockedParticipantId || (participantSelect && participantSelect.value);
+                    if (!targetId) {
                         return;
                     }
                     const baseUrl = new URL(window.location.href);
-                    baseUrl.searchParams.set('kisi', participantSelect.value);
+                    baseUrl.searchParams.set('kisi', targetId);
                     const linkToCopy = baseUrl.toString();
                     try {
                         if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -581,6 +640,8 @@
                     }
                 });
             }
+
+            updateRevealControlsState();
 
             const savedData = storage.get();
             const hasCompleteSavedData = Boolean(
@@ -742,9 +803,6 @@
                     return acc;
                 }, {});
 
-                if (participantSelect) {
-                    participantSelect.disabled = false;
-                }
                 revealReady = true;
                 updateRevealControlsState();
 
@@ -770,16 +828,23 @@
             }
 
             function revealAssignmentFor(participantId, ensureSelection = true) {
+                if (lockedParticipantId && participantId !== lockedParticipantId) {
+                    updateRevealControlsState();
+                    if (personalResult) {
+                        personalResult.textContent = `${getParticipantLabel(lockedParticipantId)} için sonuç kilitli. Bu cihaz başka isimleri gösteremez.`;
+                    }
+                    return;
+                }
+
                 if (!assignmentByGiver || !assignmentByGiver[participantId]) {
                     if (personalResult) {
-                        personalResult.textContent = 'Sonuç bulunamadı. Lütfen yöneticinizle iletişime geçin.';
+                        personalResult.textContent = 'Sonuç bulunamadı. Lütfen organizatörle iletişime geçin.';
                     }
                     return;
                 }
 
                 if (ensureSelection && participantSelect) {
                     participantSelect.value = participantId;
-                    updateRevealControlsState();
                 }
 
                 const pair = assignmentByGiver[participantId];
@@ -790,19 +855,75 @@
                         <span class="receiver">${pair.receiver}</span>
                     `;
                 }
+
+                if (!lockedParticipantId) {
+                    lockParticipantSelection(participantId);
+                } else {
+                    updateRevealControlsState();
+                }
+            }
+
+            function lockParticipantSelection(participantId) {
+                lockedParticipantId = participantId;
+                viewLockStorage.set({
+                    participantId,
+                    drawKey: DRAW_STORAGE_KEY
+                });
+                pendingRevealId = participantId;
+                updateRevealControlsState();
             }
 
             function updateRevealControlsState() {
-                const hasSelection = Boolean(participantSelect && participantSelect.value);
-                const enableActions = revealReady && hasSelection;
+                const isLocked = Boolean(lockedParticipantId);
+                const currentSelection = participantSelect ? participantSelect.value : '';
+                const effectiveSelection = isLocked ? lockedParticipantId : currentSelection;
+                const hasEffectiveSelection = Boolean(effectiveSelection);
+                const actionsEnabled = revealReady && hasEffectiveSelection;
+
+                if (participantSelect) {
+                    const options = Array.from(participantSelect.options);
+                    if (isLocked) {
+                        participantSelect.value = lockedParticipantId;
+                        participantSelect.disabled = true;
+                        options.forEach(option => {
+                            if (!option.value) {
+                                option.disabled = true;
+                            } else {
+                                option.disabled = option.value !== lockedParticipantId;
+                            }
+                        });
+                    } else {
+                        options.forEach(option => option.disabled = false);
+                        participantSelect.disabled = !revealReady;
+                    }
+                }
 
                 if (revealButton) {
-                    revealButton.disabled = !enableActions;
+                    if (isLocked) {
+                        revealButton.textContent = 'Sonuç kilitlendi';
+                        revealButton.disabled = true;
+                    } else {
+                        revealButton.textContent = 'Sonucu Göster';
+                        revealButton.disabled = !actionsEnabled;
+                    }
                 }
 
                 if (copyLinkButton) {
-                    copyLinkButton.disabled = !enableActions;
+                    copyLinkButton.disabled = !actionsEnabled;
                 }
+
+                if (lockNotice) {
+                    if (isLocked) {
+                        lockNotice.textContent = `${getParticipantLabel(lockedParticipantId)} için sonuç bu cihazda kilitlendi. Başka isimleri göremezsin.`;
+                    } else {
+                        lockNotice.textContent = 'Lütfen yalnızca kendi adını seç. Sonucu gördüğünde bu cihaz diğer isimleri göstermeyecek.';
+                    }
+                }
+            }
+
+            function getParticipantLabel(participantId) {
+                const person = participants.find(item => item.id === participantId);
+                return person ? person.label : 'Seçilen kişi';
             }
 
             function addFeedLine(text, variant) {
