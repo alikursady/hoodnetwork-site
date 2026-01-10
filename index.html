@@ -61,7 +61,7 @@
         "name": "Hood Network",
         "url": "https://hoodnetwork.org",
         "sameAs": [
-          "https://instagram.com/hoodnetwork.app"
+          "https://instagram.com/hoodmeetup"
         ]
       }
     }
@@ -310,14 +310,14 @@
         }
 
         .feature-card {
-            background: rgba(20, 20, 20, 0.6);
+            background: rgba(20, 20, 20, 0.26);
             padding: 50px 40px;
-            border-radius: 0; /* Keskin köşeler daha modern durabilir veya hafif radius */
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.07);
             transition: all 0.5s ease;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(18px);
         }
 
         .feature-card::after {
@@ -501,68 +501,44 @@
 
     <!-- Hero Section -->
     <header class="hero">
-        <div class="coming-soon-badge reveal active">Uygulama Yakında Geliyor</div>
-        
+        <!-- Üstte Öne Çıkan Butonlar -->
+        <div class="container reveal" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem;">
+            <a href="nedir.html" class="rules-btn link-hover" style="border-color: var(--neon-blue);">Hood Network Nedir?</a>
+            <a href="kurallar.html" class="rules-btn link-hover">Topluluk Manifestosu</a>
+            <a href="https://forms.gle/gN99qaP4RryhHYWq9" target="_blank" class="rules-btn link-hover">Topluluk Katılım Formu</a>
+        </div>
         <div class="glitch-wrapper reveal active">
             <h1 class="glitch" data-text="Hood Network">Hood Network</h1>
         </div>
-        
         <p class="subtitle reveal active" style="transition-delay: 0.2s;">Ankara’nın En Seçkin Topluluğu</p>
-        
-        <!-- Countdown -->
-        <div class="countdown reveal active" style="transition-delay: 0.4s;">
-            <div class="countdown-item">
-                <span class="countdown-number" id="days">00</span>
-                <span class="countdown-label">Gün</span>
-            </div>
-            <div class="countdown-item">
-                <span class="countdown-number" id="hours">00</span>
-                <span class="countdown-label">Saat</span>
-            </div>
-            <div class="countdown-item">
-                <span class="countdown-number" id="minutes">00</span>
-                <span class="countdown-label">Dak</span>
-            </div>
-            <div class="countdown-item">
-                <span class="countdown-number" id="seconds">00</span>
-                <span class="countdown-label">Sn</span>
-            </div>
-        </div>
     </header>
 
     <!-- What is Hood Network -->
     <section class="about-section">
         <div class="container">
-            <h2 class="reveal" style="margin-bottom: 2rem; font-size: 2.5rem; font-weight: 800; color: #fff;">Hood Network Nedir?</h2>
-            <p class="about-desc reveal">
+            <h2 class="reveal" style="margin-bottom: 2rem; font-size: 2.5rem; font-weight: 800; color: #fff; text-align:center;">Hood Network Nedir?</h2>
+            <p class="about-desc reveal" style="text-align:center; margin-left:auto; margin-right:auto;">
                 Hood Network, Ankara’da sosyal çevresini genişletmek, kaliteli insanlarla tanışmak ve güvenli bir topluluk içinde yer almak isteyen bireyler için oluşturulmuş modern bir sosyal ağ topluluğudur.
             </p>
 
             <div class="features-grid">
-                <div class="feature-card reveal" style="transition-delay: 0.1s;">
-                    <div class="feature-icon">◉</div>
-                    <div class="feature-title">Network Ağı</div>
-                    <p style="color: #999;">Doğru insanlarla, doğru yerde, doğru zamanda tanışın.</p>
-                </div>
-                <div class="feature-card reveal" style="transition-delay: 0.2s;">
-                    <div class="feature-icon">★</div>
-                    <div class="feature-title">Premium Etkinlikler</div>
-                    <p style="color: #999;">Standartların ötesinde, küratörlü özel deneyimler.</p>
-                </div>
-                <div class="feature-card reveal" style="transition-delay: 0.3s;">
-                    <div class="feature-icon">🛡</div>
-                    <div class="feature-title">Kapalı Devre</div>
-                    <p style="color: #999;">Sadece davet ve onay ile girilebilen güvenli alan.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="feature-card reveal" style="transition-delay: 0.1s;">
+        <div class="feature-icon">🤝</div>
+        <div class="feature-title">Ekip Buluşmaları</div>
+        <p style="color: #999;">Aynı kafadan insanlarla haftalık buluşmalar.</p>
+    </div>
+    <div class="feature-card reveal" style="transition-delay: 0.2s;">
+        <div class="feature-icon">📍</div>
+        <div class="feature-title">Aktivite Akışı</div>
+        <p style="color: #999;">Kahve, yürüyüş, oyun...</p>
+    </div>
+    <div class="feature-card reveal" style="transition-delay: 0.3s;">
+        <div class="feature-icon">🛡️</div>
+        <div class="feature-title">Güvenli Çevre</div>
+        <p style="color: #999;">Onaylı üyeler, net kurallar, sıfır drama.</p>
+    </div>
+</div>
 
-    <!-- Action Buttons -->
-    <section class="cta-section">
-        <div class="container reveal" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-            <a href="nedir.html" class="rules-btn link-hover" style="border-color: var(--neon-blue);">Hood Network Nedir?</a>
-            <a href="kurallar.html" class="rules-btn link-hover">Topluluk Manifestosu</a>
         </div>
     </section>
 
@@ -575,12 +551,12 @@
 
     <!-- Footer -->
     <footer>
-        <a href="https://instagram.com/hoodnetwork.app" target="_blank" class="social-link link-hover">
+        <a href="https://instagram.com/hoodmeetup" target="_blank" class="social-link link-hover">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-            @hoodnetwork.app
+            @hoodmeetup
         </a>
         <div class="copyright">
-            &copy; Hood Network – 2025
+            &copy; Hood Network – 2026
         </div>
         <div style="margin-top: 20px; font-size: 10px; color: #111; user-select: none;">I love you Google!</div>
     </footer>
@@ -601,27 +577,6 @@
         window.addEventListener("scroll", reveal);
         // İlk yüklemede tetikle
         reveal();
-
-        // --- Countdown ---
-        const targetDate = new Date("December 15, 2025 00:00:00").getTime();
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
-
-            if (distance < 0) return;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
-            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
-            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
-            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
-        }
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
 
         // --- Network Canvas Animation ---
         const canvas = document.getElementById("networkCanvas");
