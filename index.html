@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Hood Network Ankara; şehirdeki en aktif etkinlik, arkadaş ve sosyal aktivite grubudur. Ankara etkinlik takvimi, konserler, kamp organizasyonları, workshoplar ve tanışma toplantıları ile sosyalleşmenin yeni adresi. Biletix etkinliklerinden daha fazlasını, samimi bir toplulukta bulun.">
+    <meta name="description" content="Hood Network Ankara merkezli sosyal topluluk ve etkinlik ağıdır. Topluluk alımları geçici olarak askıdadır; güncel duyurular, topluluk bilgileri ve yasal bilgilendirme bu sayfada paylaşılır.">
     <meta name="keywords" content="Ankara etkinlik, Ankara etkinlik grubu, Hood Network, Hood Grup, Ankara sosyal topluluk, özel etkinlikler, networking Ankara, ankara etkinlik takvimi, ankara etkinlik konser, ankara etkinlik biletix, ankara arkadaş grubu, ankara topluluklar, Ankara Sosyal aktivite Grupları, Ankara gezi grubu, Ankara kamp, Ankara üniversite etkinlikleri, Ankara tanışma, sosyalleşme uygulaması, Çankaya etkinlik, Kızılay etkinlik, Bahçelievler sosyal grup, Tunalı etkinlikleri">
     <meta name="author" content="Hood Network">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -15,17 +15,21 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://hoodnetwork.org/">
     <meta property="og:title" content="Hood Network | Ankara Etkinlik ve Sosyal Arkadaş Topluluğu">
-    <meta property="og:description" content="Ankara'nın en seçkin sosyal topluluğu. Konserler, kamplar, atölyeler ve daha fazlası için bize katılın.">
+    <meta property="og:description" content="Ankara merkezli Hood Network topluluğu. Alımlar geçici olarak askıda; güncel duyuruları bu sayfadan takip edebilirsiniz.">
     <meta property="og:locale" content="tr_TR">
     <meta property="og:site_name" content="Hood Network">
     <!-- Logo veya kapak görseli -->
     <meta property="og:image" content="https://hoodnetwork.org/assets/cover.png">
+    <meta property="og:image:alt" content="Hood Network kapak görseli">
+    <meta property="og:image:width" content="2048">
+    <meta property="og:image:height" content="1152">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://hoodnetwork.org/">
     <meta name="twitter:title" content="Hood Network | Ankara Etkinlik ve Sosyal Arkadaş Topluluğu">
-    <meta name="twitter:description" content="Ankara'da yeni insanlarla tanışın, etkinliklere katılın. Şehrin ritmini Hood Network ile yakalayın.">
+    <meta name="twitter:description" content="Ankara merkezli Hood Network topluluğu. Alımlar geçici olarak askıda; güncel duyuruları buradan takip edebilirsiniz.">
+    <meta name="twitter:image" content="https://hoodnetwork.org/assets/cover.png">
 
     <!-- Yerel SEO (Google Maps ve Yerel Aramalar için) -->
     <meta name="geo.region" content="TR-06" />
@@ -38,50 +42,7 @@
     <meta name="msapplication-navbutton-color" content="#050505">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <!-- Structured Data (Google'ın siteyi 'Organizasyon' olarak anlaması için JSON-LD) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SocialEvent",
-      "name": "Hood Network Etkinlikleri",
-      "description": "Ankara genelinde düzenlenen sosyal, kültürel ve eğlence etkinlikleri topluluğu.",
-      "url": "https://hoodnetwork.org",
-      "image": [
-        "https://hoodnetwork.org/assets/cover.png"
-      ],
-      "startDate": "2026-03-01T19:00:00+03:00",
-      "endDate": "2026-12-31T23:00:00+03:00",
-      "eventStatus": "https://schema.org/EventScheduled",
-      "location": {
-        "@type": "Place",
-        "name": "Ankara",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Ankara",
-          "addressRegion": "TR-06",
-          "addressCountry": "TR"
-        }
-      },
-      "offers": {
-        "@type": "Offer",
-        "url": "https://forms.gle/gN99qaP4RryhHYWq9",
-        "price": "0",
-        "priceCurrency": "TRY",
-        "availability": "https://schema.org/InStock",
-        "validFrom": "2026-03-01T00:00:00+03:00"
-      },
-      "performer": {
-        "@type": "PerformingGroup",
-        "name": "Hood Network Community"
-      },
-      "organizer": {
-        "@type": "Organization",
-        "name": "Hood Network",
-        "url": "https://hoodnetwork.org",
-        "email": "contact@hoodnetwork.org"
-      }
-    }
-    </script>
+    <!-- Structured Data (Google'ın siteyi organizasyon ve web sitesi olarak anlaması için JSON-LD) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -128,6 +89,10 @@
             color: var(--text-main);
             line-height: 1.6;
             overflow-x: hidden;
+            min-height: 100vh;
+            min-height: 100svh;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Canvas Background */
@@ -252,6 +217,25 @@
             gap: 14px;
             justify-content: center;
             flex-wrap: wrap;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+
+        .rules-btn.is-disabled {
+            border-color: rgba(188, 19, 254, 0.45);
+            color: #f3d8ff;
+            background: rgba(188, 19, 254, 0.08);
+            cursor: default;
+        }
+
+        .rules-btn.is-disabled::before {
+            display: none;
         }
 
         .hero-event-card {
@@ -574,6 +558,8 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            min-height: 54px;
+            max-width: 100%;
             padding: 25px 60px;
             background: transparent;
             color: #fff;
@@ -582,7 +568,9 @@
             font-weight: 600;
             text-decoration: none;
             text-transform: uppercase;
+            text-align: center;
             letter-spacing: 2px;
+            line-height: 1.2;
             overflow: hidden;
             transition: 0.4s;
             z-index: 1;
@@ -603,44 +591,71 @@
         .rules-btn:hover::before { width: 100%; }
         .rules-btn:hover { border-color: #fff; box-shadow: 0 0 20px rgba(255,255,255,0.17); color: #000; }
 
-        /* KVKK & Footer */
-        .kvkk-section {
-            padding: 40px 0;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
-            background: #020202;
+        .rules-btn.is-disabled:hover,
+        .rules-btn.is-disabled:focus {
+            border-color: rgba(188, 19, 254, 0.55);
+            color: #f3d8ff;
+            background: rgba(188, 19, 254, 0.1);
+            box-shadow: 0 0 20px rgba(188, 19, 254, 0.12);
+            outline: none;
         }
 
-        .kvkk-link {
-            color: #666;
-            text-decoration: none;
-            font-size: 0.8rem;
-            transition: 0.3s;
+        /* Footer */
+        .site-footer {
+            position: relative;
+            z-index: 2;
+            margin-top: auto;
+            padding: 30px 0 24px;
+            background: linear-gradient(180deg, rgba(5, 5, 5, 0.72), #000 42%);
+            border-top: 1px solid rgba(0, 242, 255, 0.14);
+            box-shadow: 0 -18px 45px rgba(0, 0, 0, 0.45);
         }
-        .kvkk-link:hover { color: var(--neon-blue); }
 
-        footer {
-            padding: 50px 0;
-            text-align: center;
-            background: #000;
+        .footer-inner {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 20px;
+            justify-content: space-between;
+            gap: 24px;
         }
 
-        .social-link {
+        .footer-brand {
+            display: grid;
+            gap: 4px;
+        }
+
+        .footer-logo {
             color: #fff;
-            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .copyright {
+            color: #626262;
+            font-size: 0.78rem;
+        }
+
+        .footer-links {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-weight: 600;
-            opacity: 0.7;
-            transition: 0.3s;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: 10px 18px;
         }
-        .social-link:hover { opacity: 1; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
-        .social-link svg { width: 20px; height: 20px; fill: currentColor; }
+
+        .footer-link {
+            color: #8f8f8f;
+            text-decoration: none;
+            font-size: 0.82rem;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+
+        .footer-link:hover {
+            color: var(--neon-blue);
+            text-shadow: 0 0 12px rgba(0, 242, 255, 0.25);
+        }
 
         /* Responsive */
         @media (max-width: 900px) {
@@ -653,6 +668,7 @@
             .hero { padding: 40px 20px; }
             .hero h1 { font-size: 3rem; letter-spacing: -2px; line-height: 1.1; }
             .hero p.subtitle { font-size: 1rem; margin-bottom: 3rem; }
+            .hero-actions { width: 100%; }
             .hero-event-cta { width: 100%; }
             .hero-event-card { margin-top: 18px; padding: 16px; }
             .hero-event-meta { font-size: 0.88rem; }
@@ -691,6 +707,23 @@
                 padding: 20px 30px; 
                 width: 100%; 
                 font-size: 1rem;
+                min-height: 52px;
+            }
+
+            .site-footer {
+                padding: 24px 0;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 18px;
+            }
+
+            .footer-links {
+                justify-content: center;
+                gap: 12px 16px;
             }
             
             /* Mobilde cursor kapatılabilir çünkü dokunmatik ekran */
@@ -715,10 +748,10 @@
     <!-- Hero Section -->
     <header class="hero">
         <!-- Üstte Öne Çıkan Butonlar -->
-        <div class="container reveal" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem;">
-            <a href="https://forms.gle/gN99qaP4RryhHYWq9" target="_blank" class="rules-btn link-hover" style="border-color: var(--neon-blue);">Topluluk Katılım Formu</a>
+        <div class="container hero-actions reveal">
+            <span class="rules-btn is-disabled" role="status" aria-label="Topluluk alımları geçici olarak askıda">Alımlar Askıda</span>
             <a href="nedir.html" class="rules-btn link-hover" style="border-color: var(--neon-blue);">Hood Network Nedir?</a>
-            <a href="kurallar.html" class="rules-btn link-hover" style="border-color: var(--neon-blue);">Topluluk Manifestosu</a>
+            <a href="kurallar.html" class="rules-btn link-hover" style="border-color: var(--neon-blue);">Topluluk Kuralları</a>
         </div>
         <div class="glitch-wrapper reveal active">
             <h1 class="glitch" data-text="Hood Network">Hood Network</h1>
@@ -727,25 +760,23 @@
         <div class="hood-notice-card reveal active" style="transition-delay: 0.35s;">
             <div class="hood-notice-title">Önemli Duyuru</div>
             <p class="hood-notice-text">
-                Hood alımlarını bazı sebeplerden dolayı askıya aldık. Belki sonra görüşürüz.
+                Hood Network topluluk alımlarını geçici olarak askıya aldık. Güncel duyuruları ve tekrar açılacak başvuru sürecini buradan paylaşacağız.
             </p>
         </div>
     </header>
 
-    <!-- KVKK & İletişim -->
-    <section class="kvkk-section">
-        <div class="container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
-            <a href="/kvkk.pdf" target="_blank" class="kvkk-link link-hover">Yasal Bilgilendirme ve KVKK</a>
-            <span style="color: #444;">|</span>
-            <a href="mailto:contact@hoodnetwork.org" class="kvkk-link link-hover">İletişim</a>
-        </div>
-    </section>
-
     <!-- Footer -->
-    <footer>
-        <a href="mailto:contact@hoodnetwork.org" class="social-link link-hover" style="font-size: 0.95rem;">contact@hoodnetwork.org</a>
-        <div class="copyright">
-            &copy; Hood Network – 2026
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <div class="footer-logo">Hood Network</div>
+                <div class="copyright">&copy; Hood Network – 2026</div>
+            </div>
+            <nav class="footer-links" aria-label="Alt sayfa bağlantıları">
+                <a href="kvkk.pdf" target="_blank" rel="noopener noreferrer" class="footer-link link-hover">Yasal Bilgilendirme ve KVKK</a>
+                <a href="mailto:contact@hoodnetwork.org" class="footer-link link-hover">İletişim</a>
+                <a href="mailto:contact@hoodnetwork.org" class="footer-link link-hover">contact@hoodnetwork.org</a>
+            </nav>
         </div>
     </footer>
 

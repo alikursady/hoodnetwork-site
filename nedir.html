@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Hood Network nedir? Ankara'da samimiyet ve güven odaklı sosyal topluluk. Şehirde kendine yakın insanlar bulmak ve yeni deneyimler yaşamak için bize katılın.">
+    <meta name="description" content="Hood Network nedir? Ankara'da samimiyet, güven ve gerçek bağ kurma odağında şekillenen sosyal topluluk yapısını ve hikayesini keşfedin.">
     <meta name="keywords" content="Hood Network nedir, Ankara sosyal topluluk, Hood Network hikayesi, Hood Network amacı, Ankara etkinlik grubu">
     <meta name="author" content="Hood Network">
     <meta name="robots" content="index, follow">
@@ -233,6 +233,17 @@
             .nav-footer { flex-direction: column; align-items: center; }
             .btn { width: 100%; text-align: center; }
         }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -323,6 +334,7 @@
         
         let width, height;
         let particles = [];
+        const shouldReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         function resize() {
             width = canvas.width = window.innerWidth;
@@ -382,7 +394,11 @@
             });
             requestAnimationFrame(animate);
         }
-        animate();
+        if (shouldReduceMotion) {
+            particles.forEach((p) => p.draw());
+        } else {
+            animate();
+        }
     </script>
 </body>
 </html>

@@ -298,6 +298,17 @@
             }
 
         }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -422,7 +433,7 @@
                 <span class="rule-number">13</span>
                 <div class="rule-content">
                     <div class="rule-title">Ticari Çıkar Sağlama ve Manipülasyon Yasaktır</div>
-                    <div class="rule-desc">Üyere ürün satmaya çalışma, yatırım isteme, borç talep etme, MLM benzeri teklifler veya finansal yönlendirme yapmak kesinlikle yasaktır. Topluluk ilişkileri ticari çıkara dönüştürülemez.</div>
+                    <div class="rule-desc">Üyelere ürün satmaya çalışma, yatırım isteme, borç talep etme, MLM benzeri teklifler veya finansal yönlendirme yapmak kesinlikle yasaktır. Topluluk ilişkileri ticari çıkara dönüştürülemez.</div>
                 </div>
             </div>
 
@@ -448,8 +459,8 @@
         <!-- Agreement Section -->
         <div class="agreement-container">
             <!-- href="#" yapıldı, JS ile kontrol edilecek -->
-            <button class="btn btn-accept" id="acceptBtn">Okudum, Kabul Ediyorum</button>
-            <button class="btn btn-reject" id="rejectBtn">Kabul Etmiyorum</button>
+            <button class="btn btn-accept" id="acceptBtn" type="button">Okudum, Kabul Ediyorum</button>
+            <button class="btn btn-reject" id="rejectBtn" type="button">Kabul Etmiyorum</button>
         </div>
 
         <p style="text-align: center; margin-top: 30px; padding-bottom: 40px; font-size: 0.9rem; color: var(--text-muted);">
@@ -459,10 +470,10 @@
     </div>
 
     <!-- Hidden Modal -->
-    <div class="modal-overlay" id="loveModal">
+    <div class="modal-overlay" id="loveModal" role="dialog" aria-modal="true" aria-labelledby="loveModalTitle" aria-hidden="true">
         <div class="modal-content">
             <div class="modal-heart">💜</div>
-            <div class="modal-text">Biz de seni çok seviyoruz!<br>Aramıza hoş geldin.</div>
+            <div class="modal-text" id="loveModalTitle">Biz de seni çok seviyoruz!<br>Aramıza hoş geldin.</div>
             <a href="index.html" class="modal-btn">Harika!</a>
         </div>
     </div>
@@ -471,9 +482,12 @@
         // --- Modal Logic ---
         const acceptBtn = document.getElementById('acceptBtn');
         const modal = document.getElementById('loveModal');
+        const modalButton = modal.querySelector('.modal-btn');
 
         acceptBtn.addEventListener('click', function() {
             modal.classList.add('active');
+            modal.setAttribute('aria-hidden', 'false');
+            modalButton.focus();
         });
 
         // --- Runaway Button Logic ---
@@ -482,14 +496,19 @@
         rejectBtn.addEventListener('mouseover', runAway);
         rejectBtn.addEventListener('touchstart', runAway);
 
-        function runAway() {
+        function runAway(event) {
+            if (event) {
+                event.preventDefault();
+            }
             const windowWidth = window.innerWidth;
             const windowHeight = window.innerHeight;
             const btnWidth = rejectBtn.offsetWidth;
             const btnHeight = rejectBtn.offsetHeight;
 
-            const randomX = Math.random() * (windowWidth - btnWidth - 100) + 50;
-            const randomY = Math.random() * (windowHeight - btnHeight - 100) + 50;
+            const maxX = Math.max(16, windowWidth - btnWidth - 32);
+            const maxY = Math.max(16, windowHeight - btnHeight - 32);
+            const randomX = Math.random() * (maxX - 16) + 16;
+            const randomY = Math.random() * (maxY - 16) + 16;
 
             rejectBtn.style.position = 'fixed';
             rejectBtn.style.left = randomX + 'px';
